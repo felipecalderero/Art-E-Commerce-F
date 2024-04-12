@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage";
 import AllPaintingsPage from "./pages/AllPaintingsPage";
+import PaintingsDetailsPage from "./pages/PaintingsDetailsPage";
 import AboutPage from "./pages/AboutPage";
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -14,8 +15,8 @@ function App() {
         <Route path="/" element={<AllPaintingsPage />} />
         <Route path="/about" element={<AboutPage />} />
 
-        {/* <Route path="/arts/:artId" element={<PaintingsDetailsPage />} />
-  <Route path="/users/:userId" element={<ArtistDetailsPage />} /> */}
+        <Route path="/arts/:artId" element={<PaintingsDetailsPage />} />
+        {/*<Route path="/users/:userId" element={<ArtistDetailsPage />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {/* <Footer /> */}

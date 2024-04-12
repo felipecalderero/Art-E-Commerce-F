@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage";
 import AllPaintingsPage from "./pages/AllPaintingsPage";
+import AllArtistsPage from "./pages/AllArtistsPage";
 import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 
@@ -15,6 +16,7 @@ function App() {
       {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<AllPaintingsPage />} />
+        <Route path="/artists" element={<AllArtistsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
         <Route path="/users/:userId" element={<UserDetailsPage />} />

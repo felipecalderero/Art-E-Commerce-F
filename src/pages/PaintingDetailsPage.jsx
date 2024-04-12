@@ -26,7 +26,6 @@ const PaintingDetailsPage = () => {
 
   useEffect(() => {
     getArt();
-    console.log(art);
   }, []);
 
   return (
@@ -48,7 +47,7 @@ const PaintingDetailsPage = () => {
               navigate("/");
             }}
           >
-            Back
+            Back to All Paintings
           </button>
         </>
       )}

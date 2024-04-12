@@ -1,17 +1,30 @@
-import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
-import Paintings from "./pages/Paintings";
-import Artists from "./pages/Artists";
+import NotFoundPage from "./pages/NotFoundPage";
+import AllPaintingsPage from "./pages/AllPaintingsPage";
+import AllArtistsPage from "./pages/AllArtistsPage";
+import PaintingDetailsPage from "./pages/PaintingDetailsPage";
+import UserDetailsPage from "./pages/UserDetailsPage";
+
+import AboutPage from "./pages/AboutPage";
+import Navbar from "./components/Navbar";
+//import Navbar from "/src/components/Navbar.jsx";
+//import Footer from "/src/components/Footer.jsx";
 
 function App() {
   return (
-    <>
-      <Navbar></Navbar>
+    <div className="App">
+      <Navbar />
+      <h1>Art E-Commerce</h1>
       <Routes>
-        <Route path="/" element={<Paintings />}></Route>
-        <Route path="/artists" element={<Artists />}></Route>
+        <Route path="/" element={<AllPaintingsPage />} />
+        <Route path="/artists" element={<AllArtistsPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
+        <Route path="/users/:userId" element={<UserDetailsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </>
+      {/* <Footer /> */}
+    </div>
   );
 }
 

@@ -28,7 +28,7 @@ const UserDetailsPage = () => {
     <>
       {user ? (
         <>
-          <h1>Artist: {user.usename} </h1>
+          <h1>Artist: {user.username} </h1>
           <h2>Role: {user.role}</h2>
           <ul>
             {user.arts &&

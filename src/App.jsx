@@ -8,7 +8,7 @@ import UserDetailsPage from "./pages/UserDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
-//import Navbar from "/src/components/Navbar.jsx";
+import RegisterPage from "./pages/RegisterPage";
 //import Footer from "/src/components/Footer.jsx";
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
       <h1>Art E-Commerce</h1>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/arts" element={<AllPaintingsPage />} />
         <Route path="/artists" element={<AllArtistsPage />} />
         <Route path="/about" element={<AboutPage />} />

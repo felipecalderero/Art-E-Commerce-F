@@ -29,7 +29,7 @@ const AllArtistsPage = () => {
               return (
                 <li key={i}>
                   <Link to={"/users/" + currentArtist.id}>
-                    <h2>Name: {currentArtist.usename}</h2>
+                    <h2>Name: {currentArtist.username}</h2>
                   </Link>
                 </li>
               );

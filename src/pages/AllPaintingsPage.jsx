@@ -16,18 +16,15 @@ const AllPaintingsPage = () => {
   };
 
   useEffect(() => {
-    console.log("getting art");
     getAllArtworks();
-    console.log("art gotten...");
   }, []);
 
   return (
     <>
       <h1>All Paintings Page</h1>
-      {console.log(artworks)}
       <div>
         <ul>
-          {artworks &&
+          {artworks ? (
             artworks.map((art, i) => {
               return (
                 <li key={i}>
@@ -48,7 +45,10 @@ const AllPaintingsPage = () => {
                   />
                 </li>
               );
-            })}
+            })
+          ) : (
+            <p>Loading Paintings...</p> // Provide a loading state feedback
+          )}
         </ul>
       </div>
     </>

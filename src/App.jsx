@@ -6,6 +6,7 @@ import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 
 import AboutPage from "./pages/AboutPage";
+import LoginPage from "./pages/LoginPage";
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
 
@@ -15,7 +16,8 @@ function App() {
       <h1>Art E-Commerce</h1>
       {/* <Navbar /> */}
       <Routes>
-        <Route path="/" element={<AllPaintingsPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/arts" element={<AllPaintingsPage />} />
         <Route path="/artists" element={<AllArtistsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/arts/:artId" element={<PaintingDetailsPage />} />

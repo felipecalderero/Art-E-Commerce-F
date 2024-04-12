@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 
 const API_URL = "http://localhost:4000";
@@ -32,7 +34,9 @@ const PaintingDetailsPage = () => {
       {art && (
         <>
           <h1>Title: {art.title}</h1>
-          <h3>Artist: {art.userId}</h3>
+          <Link to={"/users/" + art.userId}>
+            <h3>Artist: {art.userId}</h3>
+          </Link>
           <h3>Category: {art.category}</h3>
           <h4>Date: {art.date}</h4>
           <h5>Size: {art.size}</h5>

@@ -33,17 +33,19 @@ const AllPaintingsPage = () => {
                 <li key={i}>
                   <Link to={"/arts/" + art.id}>
                     <h2>Title: {art.title}</h2>
-                    <h3>Artist: {art.userId}</h3>
-                    <h3>Category: {art.category}</h3>
-                    <h4>Date: {art.date}</h4>
-                    <h5>Size: {art.size}</h5>
-                    <p>{art.description}</p>
-                    <img
-                      src={art.image}
-                      style={{ height: "6rem" }}
-                      alt={art.title}
-                    />
                   </Link>
+                  <Link to={"/users/" + art.userId}>
+                    <h3>Artist: {art.userId}</h3>
+                  </Link>
+                  <h3>Category: {art.category}</h3>
+                  <h4>Date: {art.date}</h4>
+                  <h5>Size: {art.size}</h5>
+                  <p>{art.description}</p>
+                  <img
+                    src={art.image}
+                    style={{ height: "6rem" }}
+                    alt={art.title}
+                  />
                 </li>
               );
             })}

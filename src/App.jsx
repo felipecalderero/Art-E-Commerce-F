@@ -6,6 +6,7 @@ import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 
 import AboutPage from "./pages/AboutPage";
+import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -13,8 +14,8 @@ import LoginPage from "./pages/LoginPage";
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <h1>Art E-Commerce</h1>
-      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/arts" element={<AllPaintingsPage />} />

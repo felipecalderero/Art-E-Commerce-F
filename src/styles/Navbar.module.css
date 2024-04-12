@@ -1,0 +1,56 @@
+.container {
+  height: 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.4rem;
+  position: sticky;
+  top: 0;
+}
+
+.leftNavbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.logo {
+  width: 3rem;
+  height: 3rem;
+  margin: 5px 2rem;
+}
+
+.navlink {
+  padding: 0.5rem;
+  text-decoration: none;
+  color: black;
+}
+
+.active {
+  background-color: black;
+  color: white;
+}
+
+.rightNavbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user,
+.cart {
+  width: 2rem;
+  margin: 5px 20px 5px 5px;
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    height: 15rem;
+  }
+
+  .container,
+  .leftNavbar,
+  .rightNavbar {
+    flex-flow: column nowrap;
+    gap: 1rem;
+  }
+}

@@ -24,7 +24,7 @@ const AllArtistsPage = () => {
       <h1>All Artists Page</h1>
       <div>
         <ul>
-          {artists &&
+          {artists ? (
             artists.map((currentArtist, i) => {
               return (
                 <li key={i}>
@@ -33,7 +33,10 @@ const AllArtistsPage = () => {
                   </Link>
                 </li>
               );
-            })}
+            })
+          ) : (
+            <p>Loading Artists...</p> // Provide a loading state feedback
+          )}
         </ul>
       </div>
     </>

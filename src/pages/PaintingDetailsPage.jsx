@@ -30,7 +30,7 @@ const PaintingDetailsPage = () => {
 
   return (
     <>
-      {art && (
+      {art ? (
         <>
           <h1>Title: {art.title}</h1>
           <Link to={"/users/" + art.userId}>
@@ -50,6 +50,8 @@ const PaintingDetailsPage = () => {
             Back to All Paintings
           </button>
         </>
+      ) : (
+        <p>Loading painting details...</p> // Provide a loading state feedback
       )}
     </>
   );

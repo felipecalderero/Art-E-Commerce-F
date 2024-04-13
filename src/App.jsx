@@ -6,25 +6,26 @@ import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 
 import AboutPage from "./pages/AboutPage";
-import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
+import Layout from "/src/components/Layout";
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <h1>Art E-Commerce</h1>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/arts" element={<AllPaintingsPage />} />
-        <Route path="/artists" element={<AllArtistsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
-        <Route path="/users/:userId" element={<UserDetailsPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      {/* <Navbar /> */}
+      <Layout>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/arts" element={<AllPaintingsPage />} />
+          <Route path="/artists" element={<AllArtistsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
+          <Route path="/users/:userId" element={<UserDetailsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Layout>
       {/* <Footer /> */}
     </div>
   );

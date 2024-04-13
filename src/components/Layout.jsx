@@ -3,8 +3,8 @@ import Header from "./Header";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  console.log(location);
-  const shouldDisplayNavbar = location.pathname !== "/";
+  const ignoreRoute = ["/", "/register"];
+  const shouldDisplayNavbar = ignoreRoute.indexOf(location.pathname) < 0;
 
   return (
     <div>

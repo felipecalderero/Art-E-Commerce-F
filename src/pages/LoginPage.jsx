@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
 
@@ -9,21 +9,24 @@ const LoginPage = () => {
   // State to hold username and password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const validateLogin = () => {
     axios
-      .get(`${API_URL}/users?usename=${username}`)
+      .get(`${API_URL}/users?username=${username}`)
       .then((response) => {
-        const currentPassword = response.data.password;
         console.log(response.data);
         if (response.data.length === 0) {
-          console.log("Username does not exist. Please, regiter first.");
-        } else if (currentPassword !== password) {
-          console.log("Wrong Password");
+          setError("Username does not exist. You should register first.");
         } else {
-          console.log("User and password are ok");
-          navigate("/arts");
+          const currentPassword = response.data[0].password;
+          if (currentPassword !== password) {
+            setError("Wrong Password");
+          } else {
+            navigate("/arts");
+          }
         }
       })
       .catch((error) => console.log(error));
@@ -63,8 +66,13 @@ const LoginPage = () => {
             required
           />
         </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Login</button>
       </form>
+      <p>
+        If you do not have a Username, please,{" "}
+        <Link to={"/register"}>Register</Link>
+      </p>
     </div>
   );
 };

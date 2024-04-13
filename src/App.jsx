@@ -1,13 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import NotFoundPage from "./pages/NotFoundPage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import Layout from "/src/components/Layout";
 import AllPaintingsPage from "./pages/AllPaintingsPage";
 import AllArtistsPage from "./pages/AllArtistsPage";
 import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
-
 import AboutPage from "./pages/AboutPage";
-import LoginPage from "./pages/LoginPage";
-import Layout from "/src/components/Layout";
+import NotFoundPage from "./pages/NotFoundPage";
+
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
 
@@ -18,6 +19,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/arts" element={<AllPaintingsPage />} />
           <Route path="/artists" element={<AllArtistsPage />} />
           <Route path="/about" element={<AboutPage />} />

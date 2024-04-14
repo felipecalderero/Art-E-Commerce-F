@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 //import Search from "../components/Search";
 import axios from "axios";
+import AppGrid from "../components/AppGrid";
 
 const API_URL = "http://localhost:4000";
 
@@ -21,8 +22,9 @@ const AllPaintingsPage = () => {
 
   return (
     <>
-      <h1>All Paintings Page</h1>
-      <div>
+      <AppGrid list={artworks}></AppGrid>
+
+      {/* <div>
         <ul>
           {artworks ? (
             artworks.map((art, i) => {
@@ -50,7 +52,7 @@ const AllPaintingsPage = () => {
             <p>Loading Paintings...</p> // Provide a loading state feedback
           )}
         </ul>
-      </div>
+      </div> */}
     </>
   );
 };

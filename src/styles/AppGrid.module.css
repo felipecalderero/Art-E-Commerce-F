@@ -1,0 +1,19 @@
+.gridContainer {
+  margin: var(--mantine-spacing-md);
+}
+
+.card {
+  height: 25rem;
+}
+
+.cardImageContainer {
+  width: 100%;
+  height: 85%;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}

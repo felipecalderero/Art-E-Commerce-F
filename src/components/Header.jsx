@@ -17,10 +17,10 @@ import userImg from "../assets/images/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import cartImg from "../assets/images/cart.png";
 import ColorScheme from "./ColorScheme";
+import Logout from "./Logout";
 
 const user = {
-  name: "Jane Spoonfighter",
-  email: "janspoon@fighter.dev",
+  name: localStorage.getItem("user"),
   image: { userImg },
 };
 
@@ -110,6 +110,7 @@ const Header = () => {
               {user.name}
             </Text> */}
             <ColorScheme />
+            <Logout />
           </Group>
         </Group>
       </Container>

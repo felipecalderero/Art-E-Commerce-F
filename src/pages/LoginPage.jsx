@@ -25,7 +25,8 @@ const LoginPage = () => {
           if (currentPassword !== password) {
             setError("Wrong Password");
           } else {
-            navigate("/arts");
+            localStorage.setItem("user", username);
+            navigate("/arts", { state: { user: username } });
           }
         }
       })

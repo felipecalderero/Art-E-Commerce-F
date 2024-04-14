@@ -5,6 +5,8 @@
   );
   border-bottom: rem(1px) solid
     light-dark(var(--mantine-color-gray-2), transparent);
+  position: sticky;
+  top: 0;
 }
 
 .mainSection {

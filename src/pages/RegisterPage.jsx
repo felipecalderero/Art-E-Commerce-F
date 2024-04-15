@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { RegistrationTitle } from "../components/RegistrationTitle";
 
 const RegisterPage = () => {
+  return <RegistrationTitle />;
+};
+export default RegisterPage;
+
+/*
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -155,3 +159,5 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+*/

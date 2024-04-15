@@ -8,11 +8,41 @@ const API_URL = "http://localhost:4000";
 
 const AllPaintingsPage = () => {
   const [artworks, setArtworks] = useState([]);
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
+  let userCart = [];
 
   const getAllArtworks = () => {
     axios
       .get(`${API_URL}/arts`)
       .then((response) => setArtworks(response.data))
+      .catch((error) => console.log(error));
+  };
+
+  const updateUserCart = (artId) => {
+    userCart = [...userCart, artId];
+    axios
+      .get(`${API_URL}/users/${userId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          axios
+            .patch(`${API_URL}/users/${userId}`, {
+              cart: [...response.data.cart, artId],
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                console.log("Item added to the cart");
+              } else {
+                console.log("Error while adding item to the cart,", response);
+              }
+            })
+            .catch((error) =>
+              console.log("Error while adding item to the cart,", error)
+            );
+        } else {
+          console.log("Error while fetching user detail", response);
+        }
+      })
       .catch((error) => console.log(error));
   };
 
@@ -22,7 +52,7 @@ const AllPaintingsPage = () => {
 
   return (
     <>
-      <AppGrid list={artworks}></AppGrid>
+      <AppGrid list={artworks} updateUserCart={updateUserCart}></AppGrid>
 
       {/* <div>
         <ul>

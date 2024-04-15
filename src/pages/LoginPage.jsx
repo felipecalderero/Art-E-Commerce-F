@@ -17,15 +17,20 @@ const LoginPage = () => {
     axios
       .get(`${API_URL}/users?username=${username}`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.length === 0) {
           setError("Username does not exist. You should register first.");
         } else {
-          const currentPassword = response.data[0].password;
-          if (currentPassword !== password) {
+          const userDetail = response.data[0];
+          if (userDetail.password !== password) {
             setError("Wrong Password");
           } else {
-            localStorage.setItem("user", username);
+            localStorage.setItem(
+              "user",
+              JSON.stringify({
+                userId: userDetail.id,
+                userName: username,
+              })
+            );
             navigate("/arts", { state: { user: username } });
           }
         }
@@ -36,10 +41,6 @@ const LoginPage = () => {
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Login Submitted");
-    console.log("Username:", username);
-    console.log("Password:", password);
-
     validateLogin();
   };
 

@@ -2,9 +2,8 @@ import { Button, Grid, Group, Image, Paper, Text, Title } from "@mantine/core";
 import classes from "../styles/AppGrid.module.css";
 import { useNavigate } from "react-router-dom";
 
-const AppGrid = ({ list, updateUserCart }) => {
+const AppGrid = ({ list, updateUserCart, userCart }) => {
   const navigate = useNavigate();
-
   return (
     <Grid
       overflow="hidden"
@@ -13,16 +12,15 @@ const AppGrid = ({ list, updateUserCart }) => {
       className={classes.gridContainer}
     >
       {list.map((currentItem) => {
+        const inCart = userCart?.indexOf(currentItem.id) >= 0;
         return (
           <Grid.Col
             key={currentItem.id}
             span={{ base: 12, sm: 6, md: 4, lg: 3 }}
           >
             <Paper
-              // shadow="xs"
               p={{ base: "sm", sm: "md", md: "lg", lg: "xl" }}
               h={{ base: 450, md: 400 }}
-              // withBorder
               className={classes.card}
             >
               <div className={classes.cardImageContainer}>
@@ -55,9 +53,9 @@ const AppGrid = ({ list, updateUserCart }) => {
                   px="xs"
                   fz="xs"
                   className={classes.btn}
-                  onClick={() => updateUserCart(currentItem.id)}
+                  onClick={() => updateUserCart(currentItem.id, inCart)}
                 >
-                  Add to Cart
+                  {inCart ? "Remove from Cart" : "Add to Cart"}
                 </Button>
               </Group>
             </Paper>

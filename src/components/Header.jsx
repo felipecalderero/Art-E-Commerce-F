@@ -90,7 +90,7 @@ const Header = () => {
               <Tabs.List>{tabItems}</Tabs.List>
             </Tabs>
           </Container>
-          <Group>
+          <Group gap={{ base: "sm", sm: "md", lg: "lg" }}>
             <Avatar
               src={cartImg}
               alt="Cart"
@@ -107,9 +107,6 @@ const Header = () => {
                 className={classes.avatar}
               />
             </Tooltip>
-            {/* <Text fw={500} size="sm" lh={1} mr={3}>
-              {user.name}
-            </Text> */}
             <ColorScheme />
             <Logout />
           </Group>

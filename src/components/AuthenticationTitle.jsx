@@ -45,11 +45,19 @@ export function AuthenticationTitle() {
         if (response.data.length === 0) {
           setErrorEmail("Email does not exist. You should register first.");
         } else {
-          const currentPassword = response.data[0].password;
-          if (currentPassword !== password) {
+          const userDetail = response.data[0];
+          if (userDetail.password !== password) {
             setErrorPassword("Wrong Password");
           } else {
-            localStorage.setItem("user", email);
+            // localStorage.setItem("user", email);
+            localStorage.setItem(
+              "user",
+              JSON.stringify({
+                userId: userDetail.id,
+                userName: userDetail.username,
+                email: email,
+              })
+            );
             navigate("/arts", { state: { user: email } });
           }
         }

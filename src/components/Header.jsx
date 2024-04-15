@@ -29,7 +29,7 @@ const Header = () => {
   const { width } = useViewportSize();
 
   useEffect(() => {
-    setUsername(localStorage.getItem("user"));
+    setUsername(JSON.parse(localStorage.getItem("user")).userName);
   }, []);
 
   const tabItems = tabs.map((tab) => (

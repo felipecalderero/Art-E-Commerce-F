@@ -2,10 +2,17 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
+import { AuthenticationTitle } from "../components/AuthenticationTitle";
 
 const API_URL = "http://localhost:4000";
 
 const LoginPage = () => {
+  return <AuthenticationTitle />;
+};
+
+export default LoginPage;
+
+/*
   // State to hold username and password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -79,3 +86,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+*/

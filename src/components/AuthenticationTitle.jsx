@@ -11,50 +11,69 @@ import {
   Button,
 } from "@mantine/core";
 import classes from "../styles/AuthenticationTitle.module.css";
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 const API_URL = "http://localhost:4000";
 
 export function AuthenticationTitle() {
-  // State to hold username and password
-  const [username, setUsername] = useState("");
+  // State to hold email and password
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation(); // This hook allows you to access the state
+
+  useEffect(() => {
+    // Check if email is passed in state and set it
+    if (location.state?.email) {
+      setEmail(location.state.email);
+    }
+  }, [location.state]);
 
   const validateLogin = () => {
     setErrorEmail("");
     setErrorPassword("");
 
     axios
-      .get(`${API_URL}/users?username=${username}`)
+      .get(`${API_URL}/users?email=${email}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.length === 0) {
-          setErrorEmail("Username does not exist. You should register first.");
+          setErrorEmail("Email does not exist. You should register first.");
         } else {
           const currentPassword = response.data[0].password;
           if (currentPassword !== password) {
             setErrorPassword("Wrong Password");
           } else {
-            localStorage.setItem("user", username);
-            navigate("/arts", { state: { user: username } });
+            localStorage.setItem("user", email);
+            navigate("/arts", { state: { user: email } });
           }
         }
       })
       .catch((error) => console.log(error));
   };
 
+  // Function to validate email format
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Login Submitted");
-    console.log("Username:", username);
+    console.log("email:", email);
     console.log("Password:", password);
+
+    if (!isValidEmail(email)) {
+      setErrorEmail("Please enter a valid email address.");
+      return; // Stop the form submission if the email is not valid
+    }
 
     validateLogin();
   };
@@ -73,11 +92,11 @@ export function AuthenticationTitle() {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <TextInput
-          label="Username"
-          placeholder="my_username"
+          label="Email"
+          placeholder="your@email.com"
           required
-          value={username}
-          onChange={(event) => setUsername(event.currentTarget.value)}
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
           error={errorEmail}
         />
         <PasswordInput
@@ -92,7 +111,7 @@ export function AuthenticationTitle() {
         <Group justify="space-between" mt="lg">
           <Checkbox label="Remember me" />
           <Anchor component="button" size="sm">
-            Forgot password?
+            <Link to={"/forgotpassword"}>Forgot password?</Link>
           </Anchor>
         </Group>
         <Button fullWidth mt="xl" onClick={handleSubmit}>

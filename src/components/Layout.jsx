@@ -3,7 +3,7 @@ import Header from "./Header";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const ignoreRoute = ["/", "/register"];
+  const ignoreRoute = ["/", "/register", "/forgotpassword"];
   const shouldDisplayNavbar = ignoreRoute.indexOf(location.pathname) < 0;
 
   return (

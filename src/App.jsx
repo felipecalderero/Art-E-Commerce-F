@@ -8,6 +8,7 @@ import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -19,7 +20,9 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
           <Route path="/arts" element={<AllPaintingsPage />} />
           <Route path="/artists" element={<AllArtistsPage />} />
           <Route path="/about" element={<AboutPage />} />

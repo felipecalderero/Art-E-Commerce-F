@@ -1,0 +1,9 @@
+.cartCtn {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.textCtn {
+  font-size: 2rem;
+}

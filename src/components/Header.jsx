@@ -31,6 +31,11 @@ const Header = () => {
   const [opened, { toggle }] = useDisclosure(false);
   const { width } = useViewportSize();
 
+  let userId = localStorage.getItem("userID"); // Retrieve user ID from localStorage
+  if (userId === null) {
+    userId = 1;
+  }
+
   const tabItems = tabs.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
       {tab}
@@ -47,6 +52,11 @@ const Header = () => {
       <Text value={tab}>{tab}</Text>
     </Link>
   ));
+
+  // Function to navigate to Cart page with the user ID
+  const handleCartClick = () => {
+    navigate(`/cart/${userId}`);
+  };
 
   return (
     <div className={classes.header}>
@@ -96,6 +106,7 @@ const Header = () => {
               radius="xs"
               size={30}
               className={classes.avatar}
+              onClick={handleCartClick}
             />
             <Tooltip label={user.name}>
               <Avatar

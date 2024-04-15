@@ -50,6 +50,7 @@ export function AuthenticationTitle() {
             setErrorPassword("Wrong Password");
           } else {
             localStorage.setItem("user", email);
+            localStorage.setItem("userID", response.data[0].id);
             navigate("/arts", { state: { user: email } });
           }
         }

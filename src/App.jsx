@@ -9,6 +9,7 @@ import UserDetailsPage from "./pages/UserDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import CartPage from "./pages/CartPage";
 
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
           <Route path="/users/:userId" element={<UserDetailsPage />} />
+          <Route path="/cart/:userId" element={<CartPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>

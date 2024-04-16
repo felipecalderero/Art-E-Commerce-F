@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
+import classes from "../styles/Cart.module.css";
+import { Button } from "@mantine/core";
 
 const API_URL = "http://localhost:4000";
 
@@ -65,8 +67,8 @@ const Cart = () => {
   }
 
   return (
-    <>
-      <h1>Cart Page {userId}</h1>
+    <div className={classes.root}>
+      <h1>Your Cart: {userId}</h1>
       {fetching ? (
         <p>Loading cart...</p>
       ) : (
@@ -74,7 +76,23 @@ const Cart = () => {
           <CartItem key={index} art={art} handleDelete={handleDelete} />
         ))
       )}
-    </>
+      <div className={classes.totalCtn}>
+        <Button variant="filled" color="gray" size="md" radius="xl">
+          Checkout
+        </Button>
+        <div className={classes.textCtn}>
+          <p>
+            Total:{" "}
+            <span className={classes.priceText}>
+              $
+              {cartDetails.reduce((acumulator, currentArt) => {
+                return (acumulator += currentArt.price);
+              }, 0)}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

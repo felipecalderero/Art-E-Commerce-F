@@ -14,7 +14,6 @@ import classes from "../styles/AuthenticationTitle.module.css";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
 const API_URL = "http://localhost:4000";
 
 export function AuthenticationTitle() {
@@ -26,7 +25,6 @@ export function AuthenticationTitle() {
 
   const navigate = useNavigate();
   const location = useLocation(); // This hook allows you to access the state
-
   useEffect(() => {
     // Check if email is passed in state and set it
     if (location.state?.email) {
@@ -37,7 +35,6 @@ export function AuthenticationTitle() {
   const validateLogin = () => {
     setErrorEmail("");
     setErrorPassword("");
-
     axios
       .get(`${API_URL}/users?email=${email}`)
       .then((response) => {

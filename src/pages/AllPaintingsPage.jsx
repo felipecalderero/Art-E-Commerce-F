@@ -1,16 +1,18 @@
 // import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 //import Search from "../components/Search";
 import axios from "axios";
 import ArtsGrid from "../components/ArtsGrid";
+import { UserContext } from "../context/user.context";
+import { BreadcrumbContext } from "../context/breadcrumb.context";
 
 const API_URL = "http://localhost:4000";
 
 const AllPaintingsPage = () => {
   const [artworks, setArtworks] = useState([]);
-  const [userDetails, setUserDetails] = useState({});
   const userId = JSON.parse(localStorage.getItem("user")).userId;
-
+  const { userDetails, setUserDetails } = useContext(UserContext);
+  const { setItemList } = useContext(BreadcrumbContext);
   const getAllArtworks = () => {
     axios
       .get(`${API_URL}/arts`)
@@ -60,6 +62,7 @@ const AllPaintingsPage = () => {
   useEffect(() => {
     getAllArtworks();
     fetchUserDetails();
+    setItemList([{ title: "All Painting" }]);
   }, []);
 
   return (

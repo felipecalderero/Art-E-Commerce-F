@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 //import Search from "../components/Search";
 import axios from "axios";
 import ArtistsGrid from "../components/ArtistsGrid";
 import { Title } from "@mantine/core";
+import { BreadcrumbContext } from "../context/breadcrumb.context";
 
 const API_URL = "http://localhost:4000";
 
 const AllArtistsPage = () => {
   const [artists, setArtists] = useState([]);
+  const { setItemList } = useContext(BreadcrumbContext);
 
   const getAllArtists = () => {
     axios
@@ -18,6 +20,7 @@ const AllArtistsPage = () => {
 
   useEffect(() => {
     getAllArtists();
+    setItemList([{ title: "All Artists" }]);
   }, []);
 
   return (

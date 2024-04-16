@@ -1,0 +1,36 @@
+.container {
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.left {
+  width: 55%;
+  height: 50%;
+}
+
+.artImg {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.artistImg {
+  --image-radius: rem(100);
+}
+
+.details {
+  width: 100%;
+  padding: rem(10);
+  background-color: #f0f0f0;
+  color: light-dark(black, black);
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}

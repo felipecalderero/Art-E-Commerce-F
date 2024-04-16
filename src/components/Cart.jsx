@@ -3,7 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
-import { Button } from "@mantine/core";
+import { Button, Timeline, Text } from "@mantine/core";
+import {
+  IconGitBranch,
+  IconGitPullRequest,
+  IconGitCommit,
+  IconMessageDots,
+} from "@tabler/icons-react";
 
 const API_URL = "http://localhost:4000";
 
@@ -68,32 +74,74 @@ const Cart = () => {
 
   return (
     <div className={classes.root}>
-      <h1>Your Cart: {userId}</h1>
-      <Link to="/arts">
-        <p>Continue shopping</p>
-      </Link>
-      {fetching ? (
-        <p>Loading cart...</p>
-      ) : (
-        cartDetails.map((art, index) => (
-          <CartItem key={index} art={art} handleDelete={handleDelete} />
-        ))
-      )}
-      <div className={classes.totalCtn}>
-        <Button variant="filled" color="gray" size="md" radius="xl">
-          Checkout
-        </Button>
-        <div className={classes.textCtn}>
-          <p>
-            Total:{" "}
-            <span className={classes.priceText}>
-              $
-              {cartDetails.reduce((acumulator, currentArt) => {
-                return (acumulator += currentArt.price);
-              }, 0)}
-            </span>
-          </p>
+      <div className={classes.cartList}>
+        <h1>Your Cart: {userId}</h1>
+        <Link to="/arts">
+          <p>Continue shopping</p>
+        </Link>
+        {fetching ? (
+          <p>Loading cart...</p>
+        ) : (
+          cartDetails.map((art, index) => (
+            <CartItem key={index} art={art} handleDelete={handleDelete} />
+          ))
+        )}
+        <div className={classes.totalCtn}>
+          <Button variant="filled" color="gray" size="md" radius="xl">
+            Checkout
+          </Button>
+          <div className={classes.textCtn}>
+            <p>
+              Total:{" "}
+              <span className={classes.priceText}>
+                $
+                {cartDetails.reduce((acumulator, currentArt) => {
+                  return (acumulator += currentArt.price);
+                }, 0)}
+              </span>
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div className={classes.timeline}>
+        <Timeline color="gray" active={1} bulletSize={25} lineWidth={4}>
+          <Timeline.Item title="Add to Cart">
+            <Text c="dimmed" size="sm">
+              Chose the art you want
+            </Text>
+            <Text size="xs" mt={4}>
+              Done!
+            </Text>
+          </Timeline.Item>
+
+          <Timeline.Item title="Checkout">
+            <Text c="dimmed" size="sm">
+              Review and confirm
+            </Text>
+            <Text size="xs" mt={4}>
+              In progress...
+            </Text>
+          </Timeline.Item>
+
+          <Timeline.Item title="Delivery" lineVariant="dashed">
+            <Text c="dimmed" size="sm">
+              Fill your address
+            </Text>
+            <Text size="xs" mt={4}>
+              Pending{" "}
+            </Text>
+          </Timeline.Item>
+
+          <Timeline.Item title="Payment">
+            <Text c="dimmed" size="sm">
+              Introduce credit card{" "}
+            </Text>
+            <Text size="xs" mt={4}>
+              Pending{" "}
+            </Text>
+          </Timeline.Item>
+        </Timeline>
       </div>
     </div>
   );

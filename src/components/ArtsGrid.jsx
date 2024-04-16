@@ -1,8 +1,8 @@
 import { Button, Grid, Group, Image, Paper, Text, Title } from "@mantine/core";
-import classes from "../styles/AppGrid.module.css";
+import classes from "../styles/ArtsGrid.module.css";
 import { useNavigate } from "react-router-dom";
 
-const AppGrid = ({ list, updateUserCart, userCart }) => {
+const ArtsGrid = ({ list, updateUserCart, userCart }) => {
   const navigate = useNavigate();
   return (
     <Grid
@@ -66,4 +66,4 @@ const AppGrid = ({ list, updateUserCart, userCart }) => {
   );
 };
 
-export default AppGrid;
+export default ArtsGrid;

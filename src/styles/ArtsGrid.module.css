@@ -11,10 +11,6 @@
   position: relative;
 }
 
-.mantine-Image-root {
-  width: auto;
-}
-
 .cardImage {
   width: auto;
   height: auto;
@@ -31,7 +27,7 @@
 
 .cardImage:hover,
 .cardImage:focus {
-  transform: translate(-50%, -50%) scale(1.05); /* Scale down the image on hover or focus */
+  transform: translate(-50%, -50%) scale(1.05); /* Scale up the image on hover or focus */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 

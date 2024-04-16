@@ -54,7 +54,7 @@ export function AuthenticationTitle() {
               "user",
               JSON.stringify({
                 userId: userDetail.id,
-                userName: userDetail.username,
+                userName: userDetail.name,
                 email: email,
               })
             );

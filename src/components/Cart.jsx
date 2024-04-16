@@ -11,8 +11,6 @@ import {
   IconMessageDots,
 } from "@tabler/icons-react";
 
-const API_URL = "http://localhost:4000";
-
 const Cart = () => {
   const { userId } = useParams();
   const [cartDetails, setCartDetails] = useState([]);
@@ -20,16 +18,18 @@ const Cart = () => {
 
   const getCart = () => {
     axios
-      .get(`${API_URL}/users/${userId}`)
+      .get(`${import.meta.env.VITE_API_URL}/users/${userId}`)
       .then((response) => {
         const cartItems = response.data.cart;
         if (cartItems.length > 0) {
           return Promise.all(
             cartItems.map((artId) =>
-              axios.get(`${API_URL}/arts/${artId}`).then((artResponse) => ({
-                artId,
-                ...artResponse.data,
-              }))
+              axios
+                .get(`${import.meta.env.VITE_API_URL}/arts/${artId}`)
+                .then((artResponse) => ({
+                  artId,
+                  ...artResponse.data,
+                }))
             )
           );
         } else {
@@ -61,7 +61,7 @@ const Cart = () => {
     console.log(filteredCart);
 
     axios
-      .patch(`${API_URL}/users/${userId}`, {
+      .patch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
         cart: filteredCart,
       })
       .then(function (response) {

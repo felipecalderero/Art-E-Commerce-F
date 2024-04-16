@@ -10,6 +10,7 @@ import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
           <Route path="/users/:userId" element={<UserDetailsPage />} />
           <Route path="/cart/:userId" element={<CartPage />} />
+          <Route path="/checkout/:userId" element={<CheckoutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>

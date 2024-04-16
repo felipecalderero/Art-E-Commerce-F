@@ -49,6 +49,11 @@ const Header = () => {
     </Link>
   ));
 
+  // Function to navigate to Cart page with the user ID
+  const handleCartClick = () => {
+    navigate(`/cart/${userId}`);
+  };
+
   return (
     <div className={classes.header}>
       <Container className={classes.mainSection} size="xl">
@@ -97,6 +102,7 @@ const Header = () => {
               radius="xs"
               size={30}
               className={classes.avatar}
+              onClick={handleCartClick}
             />
             <Tooltip label={username}>
               <Avatar

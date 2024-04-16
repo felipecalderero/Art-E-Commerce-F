@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
@@ -69,6 +69,9 @@ const Cart = () => {
   return (
     <div className={classes.root}>
       <h1>Your Cart: {userId}</h1>
+      <Link to="/arts">
+        <p>Continue shopping</p>
+      </Link>
       {fetching ? (
         <p>Loading cart...</p>
       ) : (

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 //import Search from "../components/Search";
 import axios from "axios";
-import AppGrid from "../components/AppGrid";
+import ArtsGrid from "../components/ArtsGrid";
 
 const API_URL = "http://localhost:4000";
 
@@ -64,11 +64,11 @@ const AllPaintingsPage = () => {
 
   return (
     <>
-      <AppGrid
+      <ArtsGrid
         list={artworks}
         updateUserCart={updateUserCart}
         userCart={userDetails.cart}
-      ></AppGrid>
+      ></ArtsGrid>
     </>
   );
 };

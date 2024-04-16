@@ -1,7 +1,6 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Radio,
   RadioGroup,
   Anchor,
@@ -9,7 +8,6 @@ import {
   Title,
   Text,
   Container,
-  Group,
   Button,
 } from "@mantine/core";
 import { useState } from "react";

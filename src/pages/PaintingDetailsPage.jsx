@@ -12,8 +12,6 @@ const PaintingDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  console.log(artId);
-
   const getArt = () => {
     axios
       .get(`${API_URL}/arts/${artId}`)

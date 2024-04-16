@@ -1,7 +1,6 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Radio,
   RadioGroup,
   Anchor,
@@ -9,7 +8,6 @@ import {
   Title,
   Text,
   Container,
-  Group,
   Button,
 } from "@mantine/core";
 import { useState } from "react";
@@ -64,6 +62,7 @@ export function RegistrationTitle() {
         email,
         password,
         role,
+        cart: [],
       });
       console.log(response.data); // Handle the response from the server
       navigate("/login", { state: { email } }); // Navigate to login with email in state

@@ -7,7 +7,8 @@ const Logout = () => {
   return (
     <>
       <Button
-        size="sm"
+        w={50}
+        p={3}
         variant="default"
         onClick={() => {
           localStorage.removeItem("user");

@@ -13,16 +13,17 @@ const ColorScheme = () => {
 
   return (
     <Button
-      size="sm"
       variant="default"
+      w={50}
+      p={3}
       onClick={() =>
         setColorScheme(computedColorScheme === "light" ? "dark" : "light")
       }
     >
       {computedColorScheme === "light" ? (
-        <IconMoon stroke={1.5} />
+        <IconMoon stroke={2} />
       ) : (
-        <IconSun stroke={1.5} />
+        <IconSun stroke={2} />
       )}
     </Button>
   );

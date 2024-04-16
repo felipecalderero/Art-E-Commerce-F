@@ -14,22 +14,23 @@ import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import classes from "../styles/Header.module.css";
 import logoImg from "../assets/images/logo.png";
 import userImg from "../assets/images/user.png";
-import { Link, useNavigate } from "react-router-dom";
 import cartImg from "../assets/images/cart.png";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import ColorScheme from "./ColorScheme";
 import Logout from "./Logout";
-
-const user = {
-  name: localStorage.getItem("user"),
-  image: { userImg },
-};
 
 const tabs = ["Arts", "Artists"];
 
 const Header = () => {
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const [opened, { toggle }] = useDisclosure(false);
   const { width } = useViewportSize();
+
+  useEffect(() => {
+    setUsername(JSON.parse(localStorage.getItem("user")).userName);
+  }, []);
 
   const tabItems = tabs.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
@@ -53,7 +54,7 @@ const Header = () => {
       <Container className={classes.mainSection} size="xl">
         <Group justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-          <Avatar src={logoImg} alt={user.name} radius="xl" size={40} />
+          <Avatar src={logoImg} alt={"App Logo"} radius="xl" size={40} />
 
           <Popover
             width={width}
@@ -89,7 +90,7 @@ const Header = () => {
               <Tabs.List>{tabItems}</Tabs.List>
             </Tabs>
           </Container>
-          <Group>
+          <Group gap={{ base: "sm", sm: "md", lg: "lg" }}>
             <Avatar
               src={cartImg}
               alt="Cart"
@@ -97,18 +98,15 @@ const Header = () => {
               size={30}
               className={classes.avatar}
             />
-            <Tooltip label={user.name}>
+            <Tooltip label={username}>
               <Avatar
                 src={userImg}
-                alt={user.name}
+                alt={username}
                 radius="xl"
                 size={30}
                 className={classes.avatar}
               />
             </Tooltip>
-            {/* <Text fw={500} size="sm" lh={1} mr={3}>
-              {user.name}
-            </Text> */}
             <ColorScheme />
             <Logout />
           </Group>

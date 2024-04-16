@@ -64,6 +64,7 @@ export function RegistrationTitle() {
         email,
         password,
         role,
+        cart: [],
       });
       console.log(response.data); // Handle the response from the server
       navigate("/login", { state: { email } }); // Navigate to login with email in state

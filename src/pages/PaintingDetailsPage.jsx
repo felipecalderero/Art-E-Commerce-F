@@ -20,8 +20,6 @@ import {
   rem,
 } from "@mantine/core";
 
-const API_URL = "http://localhost:4000";
-
 const PaintingDetailsPage = () => {
   const [art, setArt] = useState(null);
   const artId = parseInt(useParams().artId);
@@ -32,7 +30,7 @@ const PaintingDetailsPage = () => {
 
   const getArt = () => {
     axios
-      .get(`${API_URL}/arts/${artId}`)
+      .get(`${import.meta.env.VITE_API_URL}/arts/${artId}`)
       .then((response) => {
         const currentArt = response.data;
         setArt(currentArt);
@@ -107,9 +105,17 @@ const PaintingDetailsPage = () => {
                 wrap={{ base: "wrap", md: "nowrap" }}
               >
                 <Stack gap={rem(10)}>
-                  <Text size="sm">Medium: {art.category}</Text>
-                  <Text size="sm">Size: {art.size}cm</Text>
-                  {art.date && <Text size="sm">Year: {art.date}</Text>}
+                  <Text size="sm">
+                    <strong>Medium:</strong> {art.category}
+                  </Text>
+                  <Text size="sm">
+                    <strong>Size:</strong> {art.size}cm
+                  </Text>
+                  {art.date && (
+                    <Text size="sm">
+                      <strong>Year:</strong> {art.date}
+                    </Text>
+                  )}
                 </Stack>
                 <Link to={"/users/" + art.userId}>
                   <Image

@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: space-between;
+}
+
+.cartList {
+  margin: 2rem 0rem 1rem 4rem;
+}
+
+.totalCtn {
+  margin: 1rem 0rem 0rem 3rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.priceText {
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+.textCtn {
+  margin-left: 2rem;
+}
+
+.timeline {
+  margin: 8rem 1rem 0rem 4rem;
+  padding-right: 8rem;
+}

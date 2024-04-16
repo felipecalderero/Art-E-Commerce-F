@@ -7,8 +7,6 @@ import classes from "../styles/UserDetailsPage.module.css";
 import womanPlaceholder from "../assets/images/woman_placeholder.jpg";
 import manPlaceholder from "../assets/images/man_placeholder.jpg";
 
-const API_URL = "http://localhost:4000";
-
 const UserDetailsPage = () => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
@@ -16,7 +14,7 @@ const UserDetailsPage = () => {
 
   const getUser = () => {
     axios
-      .get(`${API_URL}/users/${userId}?_embed=arts`)
+      .get(`${import.meta.env.VITE_API_URL}/users/${userId}?_embed=arts`)
       .then((response) => {
         const currentUser = response.data;
         setUser(currentUser);

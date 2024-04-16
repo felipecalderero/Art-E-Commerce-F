@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "http://localhost:4000";
-
 const UserDetailsPage = () => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
@@ -12,7 +10,7 @@ const UserDetailsPage = () => {
 
   const getUser = () => {
     axios
-      .get(`${API_URL}/users/${userId}?_embed=arts`)
+      .get(`${import.meta.env.VITE_API_URL}/users/${userId}?_embed=arts`)
       .then((response) => {
         const currentUser = response.data;
         setUser(currentUser);

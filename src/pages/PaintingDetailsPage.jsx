@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 import axios from "axios";
 
-const API_URL = "http://localhost:4000";
-
 const PaintingDetailsPage = () => {
   const [art, setArt] = useState(null);
   const { artId } = useParams();
@@ -14,7 +12,7 @@ const PaintingDetailsPage = () => {
 
   const getArt = () => {
     axios
-      .get(`${API_URL}/arts/${artId}`)
+      .get(`${import.meta.env.VITE_API_URL}/arts/${artId}`)
       .then((response) => {
         const currentArt = response.data;
         setArt(currentArt);

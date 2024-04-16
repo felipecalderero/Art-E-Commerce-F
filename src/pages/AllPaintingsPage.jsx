@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ArtsGrid from "../components/ArtsGrid";
 
-const API_URL = "http://localhost:4000";
-
 const AllPaintingsPage = () => {
   const [artworks, setArtworks] = useState([]);
   const [userDetails, setUserDetails] = useState({});
@@ -13,14 +11,16 @@ const AllPaintingsPage = () => {
 
   const getAllArtworks = () => {
     axios
-      .get(`${API_URL}/arts`)
+      .get(`${import.meta.env.VITE_API_URL}/arts`)
       .then((response) => setArtworks(response.data))
       .catch((error) => console.log(error));
   };
 
   const fetchUserDetails = async () => {
     try {
-      const userData = await axios.get(`${API_URL}/users/${userId}`);
+      const userData = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${userId}`
+      );
       if (userData.status === 200) {
         setUserDetails(userData.data);
       } else {
@@ -43,7 +43,7 @@ const AllPaintingsPage = () => {
       };
       console.log("payload ", payload);
       const updateUser = await axios.patch(
-        `${API_URL}/users/${userId}`,
+        `${import.meta.env.VITE_API_URL}/users/${userId}`,
         payload
       );
       if (updateUser.status === 200) {

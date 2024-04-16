@@ -15,8 +15,6 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import classes from "../styles/AuthenticationTitle.module.css";
 
-const API_URL = "http://localhost:4000";
-
 export function RegistrationTitle() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -57,13 +55,16 @@ export function RegistrationTitle() {
 
     // Send registration data to the server
     try {
-      const response = await axios.post(`${API_URL}/users`, {
-        name,
-        email,
-        password,
-        role,
-        cart: [],
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users`,
+        {
+          name,
+          email,
+          password,
+          role,
+          cart: [],
+        }
+      );
       console.log(response.data); // Handle the response from the server
       navigate("/login", { state: { email } }); // Navigate to login with email in state
     } catch (error) {

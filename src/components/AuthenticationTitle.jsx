@@ -15,8 +15,6 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "http://localhost:4000";
-
 export function AuthenticationTitle() {
   // State to hold email and password
   const [email, setEmail] = useState("");
@@ -39,7 +37,7 @@ export function AuthenticationTitle() {
     setErrorPassword("");
 
     axios
-      .get(`${API_URL}/users?email=${email}`)
+      .get(`${import.meta.env.VITE_API_URL}/users?email=${email}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.length === 0) {

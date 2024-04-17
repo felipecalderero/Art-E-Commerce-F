@@ -42,15 +42,44 @@ const PaintingDetailsPage = () => {
       .catch((error) => console.log(error));
   };
 
+  const updateArtDetails = async (payload) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/arts/${art.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        setArt(responseData);
+        console.log("Art data updated sucessfully");
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.log("Error while updating art data: ", error);
+    }
+  };
+
   const handleCartButtonClick = () => {
     const { cart } = JSON.parse(JSON.stringify(userDetails));
+    let inCartArtCount = art.inCart;
     if (inCart) {
       cart.splice(cart.indexOf(artId), 1);
+      inCartArtCount -= 1;
     } else {
       cart.push(artId);
+      inCartArtCount += 1;
     }
-    const payload = { cart };
-    updateUserDetails(payload);
+    const updateUserPayload = { cart };
+    updateUserDetails(updateUserPayload);
+    const updateArtPayload = { inCart: inCartArtCount };
+    updateArtDetails(updateArtPayload);
   };
 
   useEffect(() => {

@@ -3,21 +3,48 @@ import classes from "../styles/ArtsGrid.module.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user.context";
 import { useContext } from "react";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 
-const ArtsGrid = ({ list }) => {
+const ArtsGrid = ({ list, editDeleteShow, confirmDelete, updateArt }) => {
   const navigate = useNavigate();
   const { userDetails, updateUserDetails } = useContext(UserContext);
 
-  const handleCartButtonClick = (artId, inCart) => {
-    const { cart } = JSON.parse(JSON.stringify(userDetails));
+  const updateArtDetails = async (artId, payload) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/arts/${artId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        console.log("Art data updated sucessfully");
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.log("Error while updating art data: ", error);
+    }
+  };
 
-    if (inCart) {
+  const handleCartButtonClick = (artId, inCartCount, isInCart) => {
+    const { cart } = JSON.parse(JSON.stringify(userDetails));
+    if (isInCart) {
       cart.splice(cart.indexOf(artId), 1);
+      inCartCount -= 1;
     } else {
       cart.push(artId);
+      inCartCount += 1;
     }
-    const payload = { cart };
-    updateUserDetails(payload);
+    const updateUserPayload = { cart };
+    updateUserDetails(updateUserPayload);
+    const updateArtPayload = { inCart: inCartCount };
+    updateArtDetails(artId, updateArtPayload);
+    updateArt(artId, updateArtPayload.inCart);
   };
 
   return (
@@ -28,7 +55,7 @@ const ArtsGrid = ({ list }) => {
       className={classes.gridContainer}
     >
       {list.map((currentItem) => {
-        const inCart =
+        const isInCart =
           userDetails.cart?.indexOf(currentItem.id) < 0 ? false : true;
         return (
           <Grid.Col
@@ -50,16 +77,43 @@ const ArtsGrid = ({ list }) => {
                   className={classes.cardImage}
                 />
               </div>
-              <Title order={5} mt="xs">
-                {currentItem.title}
-              </Title>
-              <Group
-                justify={{ base: "center", md: "flex-start" }}
-                gap={2}
-                align="center"
-              >
-                <Text size="sm">{currentItem.category}</Text> |
-                <Text size="sm">{currentItem.size}</Text>
+              <Group justify="space-between">
+                <Title order={5} mt="xs">
+                  {currentItem.title}
+                </Title>
+              </Group>
+              <Group justify="space-between">
+                <Group
+                  justify={{ base: "center", md: "flex-start" }}
+                  gap={2}
+                  align="center"
+                >
+                  <Text size="sm">{currentItem.category}</Text> |
+                  <Text size="sm">{currentItem.size} cm</Text>
+                </Group>
+                {editDeleteShow && (
+                  <div>
+                    <Button
+                      w={30}
+                      p={0}
+                      variant="subtle"
+                      color="light-dark(black, orange)"
+                    >
+                      <IconPencil />
+                    </Button>
+                    <Button
+                      w={30}
+                      p={0}
+                      variant="subtle"
+                      color="light-dark(black, orange)"
+                      onClick={() =>
+                        confirmDelete(currentItem.id, currentItem.inCart)
+                      }
+                    >
+                      <IconTrash />
+                    </Button>
+                  </div>
+                )}
               </Group>
               <Group justify="space-between" align="center">
                 <Text>{currentItem.price}€</Text>
@@ -70,9 +124,15 @@ const ArtsGrid = ({ list }) => {
                   px="xs"
                   fz="xs"
                   className={classes.btn}
-                  onClick={() => handleCartButtonClick(currentItem.id, inCart)}
+                  onClick={() => {
+                    handleCartButtonClick(
+                      currentItem.id,
+                      currentItem.inCart,
+                      isInCart
+                    );
+                  }}
                 >
-                  {inCart ? "Remove from Cart" : "Add to Cart"}
+                  {isInCart ? "Remove from Cart" : "Add to Cart"}
                 </Button>
               </Group>
             </Paper>

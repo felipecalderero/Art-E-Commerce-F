@@ -27,16 +27,24 @@ import ArtsGrid from "../components/ArtsGrid";
 import { useDisclosure } from "@mantine/hooks";
 
 const ArtistDetailsPage = () => {
-  const { userId } = useParams();
+  const artistId = parseInt(useParams().userId);
   const { setItemList } = useContext(BreadcrumbContext);
   const [artist, setArtist] = useState(null);
-  const [opened, { open, close }] = useDisclosure(false);
+
+  let [opened, { open, close }] = useDisclosure(false);
+  const editModal = { opened, open, close };
+  [opened, { open, close }] = useDisclosure(false);
+  const deleteModal = { opened, open, close };
+  const [deleteArtId, setDeleteArtId] = useState(null);
+  const [canDelete, setCanDelete] = useState(false);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("buyer");
   const [photo, setPhoto] = useState(no_photo);
-
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
+  const isArtistLoggedIn = userId === artistId;
   const [errors, setErrors] = useState({
     name: "",
     email: "",
@@ -49,7 +57,7 @@ const ArtistDetailsPage = () => {
 
   const getArtist = () => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/users/${userId}?_embed=arts`)
+      .get(`${import.meta.env.VITE_API_URL}/users/${artistId}?_embed=arts`)
       .then((response) => {
         const artist = response.data;
         setArtist(artist);
@@ -64,6 +72,46 @@ const ArtistDetailsPage = () => {
         setPhoto(artist.photo);
       })
       .catch((error) => console.log(error));
+  };
+
+  const updateArtDetail = (artId, inCartCount) => {
+    setArtist({
+      ...artist,
+      arts: artist.arts.map((currentArt) => {
+        if (currentArt.id === artId) {
+          currentArt.inCart = inCartCount;
+        }
+        return currentArt;
+      }),
+    });
+  };
+
+  const confirmDelete = (artId, inCartCount) => {
+    if (inCartCount === 0) setCanDelete(true);
+    else setCanDelete(false);
+    setDeleteArtId(artId);
+    deleteModal.open();
+  };
+
+  const deleteArt = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/arts/${deleteArtId}`,
+        { method: "DELETE" }
+      );
+      if (response.ok) {
+        setArtist({
+          ...artist,
+          arts: artist.arts.filter((item) => item.id != deleteArtId),
+        });
+        deleteModal.close();
+        console.log("Art deleted sucessfully");
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.log("Error while deleting art: ", error);
+    }
   };
 
   // Function to validate email format
@@ -145,15 +193,17 @@ const ArtistDetailsPage = () => {
                   <Title order={3} tt="uppercase">
                     {artist.name}
                   </Title>
-                  <Button
-                    w={50}
-                    p={3}
-                    variant="subtle"
-                    color="light-dark(black, orange)"
-                    onClick={open}
-                  >
-                    <IconEdit />
-                  </Button>
+                  {isArtistLoggedIn && (
+                    <Button
+                      w={50}
+                      p={3}
+                      variant="subtle"
+                      color="light-dark(black, orange)"
+                      onClick={editModal.open}
+                    >
+                      <IconEdit />
+                    </Button>
+                  )}
                 </Group>
 
                 <Text>{artist.description}</Text>
@@ -183,24 +233,41 @@ const ArtistDetailsPage = () => {
             <Title order={2} ta="center">
               All Artworks by {artist.name}
             </Title>
-            {artist.arts && <ArtsGrid list={artist.arts}></ArtsGrid>}
-            <Group justify="center">
-              <Button
-                variant="outline"
-                color="light-dark(black, orange)"
-                onClick={() => {
-                  console.log("add art button clicked");
-                }}
-              >
-                New Art
-              </Button>
-            </Group>
+            {artist.arts?.length ? (
+              <ArtsGrid
+                list={artist.arts}
+                editDeleteShow={isArtistLoggedIn}
+                confirmDelete={confirmDelete}
+                updateArt={updateArtDetail}
+              ></ArtsGrid>
+            ) : (
+              <Title order={5} ta="center" h={rem(50)}>
+                No Art
+              </Title>
+            )}
+            {isArtistLoggedIn && (
+              <Group justify="center">
+                <Button
+                  variant="outline"
+                  color="light-dark(black, orange)"
+                  onClick={() => {
+                    console.log("add art button clicked");
+                  }}
+                >
+                  New Art
+                </Button>
+              </Group>
+            )}
           </>
         </>
       ) : (
         <p>Loading details...</p> // Provide a loading state feedback
       )}
-      <Modal opened={opened} onClose={close} title="Personal Information">
+      <Modal
+        opened={editModal.opened}
+        onClose={editModal.close}
+        title="Personal Information"
+      >
         <TextInput
           label="Name"
           placeholder="Your name"
@@ -248,6 +315,24 @@ const ArtistDetailsPage = () => {
 
         <Button fullWidth mt="xl" onClick={handleSubmit}>
           Update Personal Information
+        </Button>
+      </Modal>
+      <Modal
+        opened={deleteModal.opened}
+        onClose={deleteModal.close}
+        title="Confirm Deletion"
+      >
+        <Text>
+          {canDelete
+            ? "Are you sure you want to delete this item?"
+            : "You can not delete this art. People have added to the cart"}
+        </Text>
+        <Button
+          fullWidth
+          mt="xl"
+          onClick={canDelete ? deleteArt : deleteModal.close}
+        >
+          {canDelete ? "Delete" : "Ok"}
         </Button>
       </Modal>
     </>

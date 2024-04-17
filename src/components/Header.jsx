@@ -10,9 +10,10 @@ import {
   Popover,
   Tooltip,
 } from "@mantine/core";
+import { FaCartShopping, FaRegUser } from "react-icons/fa6";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import classes from "../styles/Header.module.css";
-import logoImg from "../assets/images/logo.png";
+import logoImg from "../assets/images/artmarketlogo.png";
 import userImg from "../assets/images/user.png";
 import cartImg from "../assets/images/cart.png";
 import { useEffect, useState } from "react";
@@ -58,8 +59,14 @@ const Header = () => {
     <div className={classes.header}>
       <Container className={classes.mainSection} size="xl">
         <Group justify="space-between">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-          <Avatar src={logoImg} alt={"App Logo"} radius="xl" size={40} />
+          <Burger
+            color={"#ffebb2"}
+            opened={opened}
+            onClick={toggle}
+            hiddenFrom="xs"
+            size="sm"
+          />
+          <Avatar src={logoImg} alt={"App Logo"} radius="xs" size={60} />
 
           <Popover
             width={width}
@@ -82,7 +89,7 @@ const Header = () => {
           </Popover>
           <Container size="md">
             <Tabs
-              color="orange"
+              color="#ffebb2"
               defaultValue="Arts"
               visibleFrom="xs"
               onChange={(value) => navigate(`/${value.toLowerCase()}`)}
@@ -96,14 +103,7 @@ const Header = () => {
             </Tabs>
           </Container>
           <Group gap={{ base: "sm", sm: "md", lg: "lg" }}>
-            <Avatar
-              src={cartImg}
-              alt="Cart"
-              radius="xs"
-              size={30}
-              className={classes.avatar}
-              onClick={handleCartClick}
-            />
+            <FaCartShopping onClick={handleCartClick} />
             <Tooltip label={username}>
               <Avatar
                 src={userImg}

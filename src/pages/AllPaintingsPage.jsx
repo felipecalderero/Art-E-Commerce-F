@@ -19,6 +19,17 @@ const AllPaintingsPage = () => {
       .catch((error) => console.log(error));
   };
 
+  const updateArtDetail = (artId, inCartCount) => {
+    setArtworks(
+      artworks.map((currentArt) => {
+        if (currentArt.id === artId) {
+          currentArt.inCart = inCartCount;
+        }
+        return currentArt;
+      })
+    );
+  };
+
   useEffect(() => {
     getAllArtworks();
     fetchUserDetails(userId);
@@ -27,7 +38,11 @@ const AllPaintingsPage = () => {
 
   return (
     <>
-      <ArtsGrid list={artworks}></ArtsGrid>
+      <ArtsGrid
+        list={artworks}
+        editDeleteShow={false}
+        updateArt={updateArtDetail}
+      ></ArtsGrid>
     </>
   );
 };

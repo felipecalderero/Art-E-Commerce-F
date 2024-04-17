@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
-import { Button, Timeline, Text } from "@mantine/core";
+import { Button } from "@mantine/core";
 
 const Cart = () => {
   const { userId } = useParams();

@@ -42,7 +42,7 @@ const UserProviderWrapper = (props) => {
         throw new Error(response);
       }
     } catch (error) {
-      console.log("Error while updating data: ", error);
+      console.log("Error while updating user data: ", error);
     }
   };
 

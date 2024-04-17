@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import Header from "./Header";
+import AppBreadcrumbs from "./AppBreadcrumbs";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -8,7 +9,12 @@ const Layout = ({ children }) => {
 
   return (
     <div>
-      {shouldDisplayNavbar && <Header />}
+      {shouldDisplayNavbar && (
+        <>
+          <Header />
+          <AppBreadcrumbs />
+        </>
+      )}
       {children}
     </div>
   );

@@ -24,7 +24,6 @@ export function AuthenticationTitle() {
 
   const navigate = useNavigate();
   const location = useLocation(); // This hook allows you to access the state
-
   useEffect(() => {
     // Check if email is passed in state and set it
     if (location.state?.email) {
@@ -35,7 +34,6 @@ export function AuthenticationTitle() {
   const validateLogin = () => {
     setErrorEmail("");
     setErrorPassword("");
-
     axios
       .get(`${import.meta.env.VITE_API_URL}/users?email=${email}`)
       .then((response) => {

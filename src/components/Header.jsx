@@ -51,7 +51,7 @@ const Header = () => {
 
   // Function to navigate to Cart page with the user ID
   const handleCartClick = () => {
-    navigate(`/cart/${userId}`);
+    navigate(`/cart/${JSON.parse(localStorage.getItem("user")).userId}`);
   };
 
   return (

@@ -10,6 +10,8 @@ import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import CartPage from "./pages/CartPage";
+import UserProviderWrapper from "./context/user.context.jsx";
+import BreadcrumbWrapper from "./context/breadcrumb.context.jsx";
 
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -17,22 +19,25 @@ import CartPage from "./pages/CartPage";
 function App() {
   return (
     <div className="App">
-      {/* <Navbar /> */}
-      <Layout>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
-          <Route path="/arts" element={<AllPaintingsPage />} />
-          <Route path="/artists" element={<AllArtistsPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
-          <Route path="/users/:userId" element={<UserDetailsPage />} />
-          <Route path="/cart/:userId" element={<CartPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Layout>
+      <UserProviderWrapper>
+        <BreadcrumbWrapper>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<LoginPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
+              <Route path="/arts" element={<AllPaintingsPage />} />
+              <Route path="/artists" element={<AllArtistsPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
+              <Route path="/users/:userId" element={<UserDetailsPage />} />
+              <Route path="/cart/:userId" element={<CartPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Layout>
+        </BreadcrumbWrapper>
+      </UserProviderWrapper>
       {/* <Footer /> */}
     </div>
   );

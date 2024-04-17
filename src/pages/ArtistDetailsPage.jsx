@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
 import {
@@ -8,21 +8,44 @@ import {
   Flex,
   Group,
   Image,
+  Modal,
+  PasswordInput,
+  Radio,
+  RadioGroup,
   Stack,
   Text,
+  TextInput,
   Title,
   rem,
 } from "@mantine/core";
 import womanPlaceholder from "../assets/images/woman_placeholder.jpg";
 import manPlaceholder from "../assets/images/man_placeholder.jpg";
+import no_photo from "../assets/images/no_photo.png";
 import { IconEdit } from "@tabler/icons-react";
 import classes from "../styles/ArtistDetailsPage.module.css";
 import ArtsGrid from "../components/ArtsGrid";
+import { useDisclosure } from "@mantine/hooks";
 
 const ArtistDetailsPage = () => {
-  const [artist, setArtist] = useState(null);
   const { userId } = useParams();
   const { setItemList } = useContext(BreadcrumbContext);
+  const [artist, setArtist] = useState(null);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("buyer");
+  const [photo, setPhoto] = useState(no_photo);
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+    photo: "",
+  });
+
+  const navigate = useNavigate();
 
   const getArtist = () => {
     axios
@@ -34,8 +57,58 @@ const ArtistDetailsPage = () => {
           { title: "All Artists", url: "/artists" },
           { title: artist.name },
         ]);
+        setName(artist.name);
+        setEmail(artist.email);
+        setPassword(artist.password);
+        setRole(artist.role);
+        setPhoto(artist.photo);
       })
       .catch((error) => console.log(error));
+  };
+
+  // Function to validate email format
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Function to handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Validate inputs
+    let validationErrors = {};
+    if (!name) validationErrors.name = "Name is required";
+    if (!email) validationErrors.email = "Email is required";
+    else if (!isValidEmail(email))
+      validationErrors.email = "Invalid email format";
+    if (!password) validationErrors.password = "Password is required";
+    if (!role) validationErrors.role = "Please select your role";
+
+    setErrors(validationErrors);
+
+    // Check if there are any errors
+    if (Object.keys(validationErrors).length > 0) return;
+
+    // Send registration data to the server
+    try {
+      const response = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/users/${artist.id}`,
+        {
+          name,
+          email,
+          password,
+          role,
+          cart: [],
+          photo,
+        }
+      );
+      console.log(response.data); // Handle the response from the server
+      navigate(`/users/${artist.id}`, { state: { email } }); // Navigate to login with email in state
+    } catch (error) {
+      console.error("Registration failed:", error);
+      setErrors({ ...errors, email: "Registration failed. Please try again." });
+    }
   };
 
   useEffect(() => {
@@ -77,9 +150,7 @@ const ArtistDetailsPage = () => {
                     p={3}
                     variant="subtle"
                     color="light-dark(black, orange)"
-                    onClick={() => {
-                      console.log("edit button clicked");
-                    }}
+                    onClick={open}
                   >
                     <IconEdit />
                   </Button>
@@ -129,6 +200,56 @@ const ArtistDetailsPage = () => {
       ) : (
         <p>Loading details...</p> // Provide a loading state feedback
       )}
+      <Modal opened={opened} onClose={close} title="Personal Information">
+        <TextInput
+          label="Name"
+          placeholder="Your name"
+          required
+          value={name}
+          onChange={(event) => setName(event.currentTarget.value)}
+          error={errors.name}
+        />
+        <TextInput
+          label="Email"
+          placeholder="example@domain.com"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
+          error={errors.email}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          required
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+          error={errors.password}
+        />
+        <RadioGroup
+          label="Role"
+          required
+          value={role}
+          onChange={setRole}
+          error={errors.role}
+        >
+          <Radio value="buyer" label="Buyer Only" />
+          <Radio value="artist" label="Artist" />
+        </RadioGroup>
+
+        <TextInput
+          label="Photo"
+          placeholder="your_image_url"
+          value={photo}
+          onChange={(event) => setPhoto(event.currentTarget.value)}
+          error={errors.photo}
+        />
+
+        <Image radius="xl" src={photo} />
+
+        <Button fullWidth mt="xl" onClick={handleSubmit}>
+          Update Personal Information
+        </Button>
+      </Modal>
     </>
   );
 };

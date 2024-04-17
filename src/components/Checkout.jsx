@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
 import { Button, Timeline, Text } from "@mantine/core";
 
-const Cart = () => {
+const Checkout = () => {
   const { userId } = useParams();
   const [cartDetails, setCartDetails] = useState([]);
   const [fetching, setFetching] = useState(true);
 
-  const navigate = useNavigate();
-
   const getCart = () => {
-    console.log(userId);
-
+    console.log("userId", userId);
     axios
       .get(`${import.meta.env.VITE_API_URL}/users/${userId}`)
       .then((response) => {
@@ -24,12 +21,10 @@ const Cart = () => {
             cartItems.map((artId) =>
               axios
                 .get(`${import.meta.env.VITE_API_URL}/arts/${artId}`)
-                .then((artResponse) => {
-                  return {
-                    artId,
-                    ...artResponse.data,
-                  };
-                })
+                .then((artResponse) => ({
+                  artId,
+                  ...artResponse.data,
+                }))
             )
           );
         } else {
@@ -75,9 +70,9 @@ const Cart = () => {
   return (
     <div className={classes.root}>
       <div className={classes.cartList}>
-        <h1>Your Cart:</h1>
+        <h1>Your Order:</h1>
         <Link to="/arts">
-          <p>Continue shopping</p>
+          <p>Back to shopping</p>
         </Link>
         {fetching ? (
           <p>Loading cart...</p>
@@ -87,14 +82,8 @@ const Cart = () => {
           ))
         )}
         <div className={classes.totalCtn}>
-          <Button
-            variant="filled"
-            color="gray"
-            size="md"
-            radius="xl"
-            onClick={() => navigate(`/checkout/${userId}`)}
-          >
-            Checkout
+          <Button variant="filled" color="gray" size="md" radius="xl">
+            Delivery
           </Button>
           <div className={classes.textCtn}>
             <p>
@@ -109,8 +98,48 @@ const Cart = () => {
           </div>
         </div>
       </div>
+
+      <div className={classes.timeline}>
+        <Timeline color="gray" active={1} bulletSize={25} lineWidth={4}>
+          <Timeline.Item title="Add to Cart">
+            <Text c="dimmed" size="sm">
+              Chose the art you want
+            </Text>
+            <Text size="xs" mt={4}>
+              Done!
+            </Text>
+          </Timeline.Item>
+
+          <Timeline.Item title="Checkout">
+            <Text c="dimmed" size="sm">
+              Review and confirm
+            </Text>
+            <Text size="xs" mt={4}>
+              In progress...
+            </Text>
+          </Timeline.Item>
+
+          <Timeline.Item title="Delivery" lineVariant="dashed">
+            <Text c="dimmed" size="sm">
+              Fill your address
+            </Text>
+            <Text size="xs" mt={4}>
+              Pending{" "}
+            </Text>
+          </Timeline.Item>
+
+          <Timeline.Item title="Payment">
+            <Text c="dimmed" size="sm">
+              Introduce credit card{" "}
+            </Text>
+            <Text size="xs" mt={4}>
+              Pending{" "}
+            </Text>
+          </Timeline.Item>
+        </Timeline>
+      </div>
     </div>
   );
 };
 
-export default Cart;
+export default Checkout;

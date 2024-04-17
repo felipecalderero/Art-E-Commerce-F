@@ -10,6 +10,7 @@ import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import UserProviderWrapper from "./context/user.context.jsx";
 import BreadcrumbWrapper from "./context/breadcrumb.context.jsx";
 
@@ -33,6 +34,7 @@ function App() {
               <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
               <Route path="/users/:userId" element={<UserDetailsPage />} />
               <Route path="/cart/:userId" element={<CartPage />} />
+              <Route path="/checkout/:userId" element={<CheckoutPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Layout>

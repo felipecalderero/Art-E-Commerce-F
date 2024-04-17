@@ -5,13 +5,13 @@ import Layout from "/src/components/Layout";
 import AllPaintingsPage from "./pages/AllPaintingsPage";
 import AllArtistsPage from "./pages/AllArtistsPage";
 import PaintingDetailsPage from "./pages/PaintingDetailsPage";
-import UserDetailsPage from "./pages/UserDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import CartPage from "./pages/CartPage";
 import UserProviderWrapper from "./context/user.context.jsx";
 import BreadcrumbWrapper from "./context/breadcrumb.context.jsx";
+import ArtistDetailsPage from "./pages/ArtistDetailsPage.jsx";
 
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
@@ -31,7 +31,7 @@ function App() {
               <Route path="/artists" element={<AllArtistsPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
-              <Route path="/users/:userId" element={<UserDetailsPage />} />
+              <Route path="/users/:userId" element={<ArtistDetailsPage />} />
               <Route path="/cart/:userId" element={<CartPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

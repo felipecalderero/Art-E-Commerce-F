@@ -5,7 +5,6 @@ import womanPlaceholder from "../assets/images/woman_placeholder.jpg";
 import manPlaceholder from "../assets/images/man_placeholder.jpg";
 
 const ArtistsGrid = ({ list }) => {
-  console.log(list);
   const navigate = useNavigate();
   return (
     <Grid

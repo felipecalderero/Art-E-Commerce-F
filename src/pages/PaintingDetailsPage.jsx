@@ -55,8 +55,6 @@ const PaintingDetailsPage = () => {
         }
       );
       if (response.ok) {
-        const responseData = await response.json();
-        setArt(responseData);
         console.log("Art data updated sucessfully");
       } else {
         throw new Error(response);
@@ -97,19 +95,6 @@ const PaintingDetailsPage = () => {
             direction="row"
             wrap={{ base: "wrap", md: "nowrap" }}
           >
-            {/* <Button
-              visibleFrom="md"
-              variant="outline"
-              style={{ alignSelf: "flex-start" }}
-              color="light-dark(rgba(26, 25, 25, 1), orange)"
-              w={55}
-              p={10}
-              onClick={() => {
-                navigate("/arts");
-              }}
-            >
-              <IconArrowLeft stroke={1} />
-            </Button> */}
             <div className={classes.left}>
               <Image
                 src={art.image}
@@ -179,13 +164,15 @@ const PaintingDetailsPage = () => {
                   <Text fw={700} fz={25}>
                     {art.price}€
                   </Text>
-                  <Button
-                    variant="outline"
-                    color="black"
-                    onClick={handleCartButtonClick}
-                  >
-                    {inCart ? "Remove from Cart" : "Add to Cart"}
-                  </Button>
+                  {userDetails.id !== art.userId && (
+                    <Button
+                      variant="outline"
+                      color="black"
+                      onClick={handleCartButtonClick}
+                    >
+                      {inCart ? "Remove from Cart" : "Add to Cart"}
+                    </Button>
+                  )}
                 </Group>
               </Container>
             </Stack>

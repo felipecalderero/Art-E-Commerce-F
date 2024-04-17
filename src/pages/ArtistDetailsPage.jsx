@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
 import {
@@ -9,22 +9,25 @@ import {
   Group,
   Image,
   Modal,
-  PasswordInput,
-  Radio,
-  RadioGroup,
+  ScrollArea,
+  // PasswordInput,
+  // Radio,
+  // RadioGroup,
   Stack,
   Text,
-  TextInput,
+  // TextInput,
   Title,
   rem,
 } from "@mantine/core";
 import womanPlaceholder from "../assets/images/woman_placeholder.jpg";
 import manPlaceholder from "../assets/images/man_placeholder.jpg";
-import no_photo from "../assets/images/no_photo.png";
 import { IconEdit } from "@tabler/icons-react";
 import classes from "../styles/ArtistDetailsPage.module.css";
 import ArtsGrid from "../components/ArtsGrid";
 import { useDisclosure } from "@mantine/hooks";
+import AddEditArtModal from "../components/AddEditArtModal";
+import EditArtistModal from "../components/EditArtistModal";
+import DeleteArtModal from "../components/DeleteArtModal";
 
 const ArtistDetailsPage = () => {
   const artistId = parseInt(useParams().userId);
@@ -37,23 +40,23 @@ const ArtistDetailsPage = () => {
   const deleteModal = { opened, open, close };
   const [deleteArtId, setDeleteArtId] = useState(null);
   const [canDelete, setCanDelete] = useState(false);
+  [opened, { open, close }] = useDisclosure(false);
+  const addEditModal = { opened, open, close };
+  const [artDetail, setArtDetail] = useState({
+    title: "",
+    description: "",
+    category: "",
+    size: "",
+    date: "",
+    image: "",
+    userId: artistId,
+    price: 0,
+    inCart: 0,
+  });
+  const [isNewArt, setIsNewArt] = useState(true);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("buyer");
-  const [photo, setPhoto] = useState(no_photo);
   const userId = JSON.parse(localStorage.getItem("user")).userId;
   const isArtistLoggedIn = userId === artistId;
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "",
-    photo: "",
-  });
-
-  const navigate = useNavigate();
 
   const getArtist = () => {
     axios
@@ -65,13 +68,34 @@ const ArtistDetailsPage = () => {
           { title: "All Artists", url: "/artists" },
           { title: artist.name },
         ]);
-        setName(artist.name);
-        setEmail(artist.email);
-        setPassword(artist.password);
-        setRole(artist.role);
-        setPhoto(artist.photo);
+        // setName(artist.name);
+        // setEmail(artist.email);
+        // setPassword(artist.password);
+        // setRole(artist.role);
+        // setPhoto(artist.photo);
       })
       .catch((error) => console.log(error));
+  };
+
+  const editArt = (artDetail) => {
+    setArtDetail(artDetail);
+    setIsNewArt(false);
+    addEditModal.open();
+  };
+
+  const closeAddEditModal = () => {
+    setArtDetail({
+      title: "",
+      description: "",
+      category: "",
+      size: "",
+      date: "",
+      image: "",
+      userId: artistId,
+      price: 0,
+      inCart: 0,
+    });
+    addEditModal.close();
   };
 
   const updateArtDetail = (artId, inCartCount) => {
@@ -84,6 +108,73 @@ const ArtistDetailsPage = () => {
         return currentArt;
       }),
     });
+  };
+
+  const updateArtist = async (payload) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/${artist.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        setArtist({ ...artist, ...responseData });
+        editModal.close();
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.error(
+        "Error occured while updating user info:",
+        JSON.stringify(error)
+      );
+      // setErrors({ ...errors, email: "Registration failed. Please try again." });
+    }
+  };
+
+  const addUpdateArt = async (payload) => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_API_URL.concat(
+          isNewArt ? `/arts` : `/arts/${artDetail.id}`
+        ),
+        {
+          method: isNewArt ? "POST" : "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Data saved successfully");
+        if (isNewArt) {
+          setArtist({ ...artist, arts: [...artist.arts, responseData] });
+        } else {
+          setArtist({
+            ...artist,
+            arts: artist.arts.map((currentArt) => {
+              if (currentArt.id === responseData.id) {
+                return { ...currentArt, ...responseData };
+              }
+              return currentArt;
+            }),
+          });
+        }
+        closeAddEditModal();
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.error("Error while add/update art:", error);
+    }
   };
 
   const confirmDelete = (artId, inCartCount) => {
@@ -111,51 +202,6 @@ const ArtistDetailsPage = () => {
       }
     } catch (error) {
       console.log("Error while deleting art: ", error);
-    }
-  };
-
-  // Function to validate email format
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  // Function to handle form submission
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Validate inputs
-    let validationErrors = {};
-    if (!name) validationErrors.name = "Name is required";
-    if (!email) validationErrors.email = "Email is required";
-    else if (!isValidEmail(email))
-      validationErrors.email = "Invalid email format";
-    if (!password) validationErrors.password = "Password is required";
-    if (!role) validationErrors.role = "Please select your role";
-
-    setErrors(validationErrors);
-
-    // Check if there are any errors
-    if (Object.keys(validationErrors).length > 0) return;
-
-    // Send registration data to the server
-    try {
-      const response = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/users/${artist.id}`,
-        {
-          name,
-          email,
-          password,
-          role,
-          cart: [],
-          photo,
-        }
-      );
-      console.log(response.data); // Handle the response from the server
-      navigate(`/users/${artist.id}`, { state: { email } }); // Navigate to login with email in state
-    } catch (error) {
-      console.error("Registration failed:", error);
-      setErrors({ ...errors, email: "Registration failed. Please try again." });
     }
   };
 
@@ -236,9 +282,10 @@ const ArtistDetailsPage = () => {
             {artist.arts?.length ? (
               <ArtsGrid
                 list={artist.arts}
-                editDeleteShow={isArtistLoggedIn}
+                page={"artist"}
                 confirmDelete={confirmDelete}
                 updateArt={updateArtDetail}
+                editArt={editArt}
               ></ArtsGrid>
             ) : (
               <Title order={5} ta="center" h={rem(50)}>
@@ -251,7 +298,8 @@ const ArtistDetailsPage = () => {
                   variant="outline"
                   color="light-dark(black, orange)"
                   onClick={() => {
-                    console.log("add art button clicked");
+                    setIsNewArt(true);
+                    addEditModal.open();
                   }}
                 >
                   New Art
@@ -263,77 +311,57 @@ const ArtistDetailsPage = () => {
       ) : (
         <p>Loading details...</p> // Provide a loading state feedback
       )}
+
+      {/* Update artist modal */}
       <Modal
         opened={editModal.opened}
         onClose={editModal.close}
+        size="auto"
         title="Personal Information"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        scrollAreaComponent={ScrollArea.Autosize}
       >
-        <TextInput
-          label="Name"
-          placeholder="Your name"
-          required
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-          error={errors.name}
-        />
-        <TextInput
-          label="Email"
-          placeholder="example@domain.com"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-          error={errors.email}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-          error={errors.password}
-        />
-        <RadioGroup
-          label="Role"
-          required
-          value={role}
-          onChange={setRole}
-          error={errors.role}
-        >
-          <Radio value="buyer" label="Buyer Only" />
-          <Radio value="artist" label="Artist" />
-        </RadioGroup>
-
-        <TextInput
-          label="Photo"
-          placeholder="your_image_url"
-          value={photo}
-          onChange={(event) => setPhoto(event.currentTarget.value)}
-          error={errors.photo}
-        />
-
-        <Image radius="xl" src={photo} />
-
-        <Button fullWidth mt="xl" onClick={handleSubmit}>
-          Update Personal Information
-        </Button>
+        <EditArtistModal artistDetails={artist} updateArtist={updateArtist} />
       </Modal>
+
+      {/* Delete art modal */}
       <Modal
         opened={deleteModal.opened}
         onClose={deleteModal.close}
         title="Confirm Deletion"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
       >
-        <Text>
-          {canDelete
-            ? "Are you sure you want to delete this item?"
-            : "You can not delete this art. People have added to the cart"}
-        </Text>
-        <Button
-          fullWidth
-          mt="xl"
-          onClick={canDelete ? deleteArt : deleteModal.close}
-        >
-          {canDelete ? "Delete" : "Ok"}
-        </Button>
+        <DeleteArtModal
+          canDelete={canDelete}
+          deleteArt={deleteArt}
+          closeModal={deleteModal.close}
+        />
+      </Modal>
+
+      {/* Update art modal */}
+      <Modal
+        opened={addEditModal.opened}
+        onClose={() => {
+          closeAddEditModal();
+        }}
+        title="Art Details"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        scrollAreaComponent={ScrollArea.Autosize}
+      >
+        <AddEditArtModal
+          isNew={isNewArt}
+          artDetail={artDetail}
+          addUpdateArt={addUpdateArt}
+        />
       </Modal>
     </>
   );

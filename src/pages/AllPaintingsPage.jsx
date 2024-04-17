@@ -40,7 +40,7 @@ const AllPaintingsPage = () => {
     <>
       <ArtsGrid
         list={artworks}
-        editDeleteShow={false}
+        page={"all-art"}
         updateArt={updateArtDetail}
       ></ArtsGrid>
     </>

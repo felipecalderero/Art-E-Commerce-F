@@ -1,4 +1,4 @@
-.container {
+.artistContainer {
   height: 85vh;
   display: flex;
   align-items: center;
@@ -17,4 +17,12 @@
   max-height: 100%;
   max-width: 100%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.artContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: rem(50);
 }

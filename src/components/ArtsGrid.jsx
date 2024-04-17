@@ -1,9 +1,25 @@
 import { Button, Grid, Group, Image, Paper, Text, Title } from "@mantine/core";
 import classes from "../styles/ArtsGrid.module.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/user.context";
+import { useContext } from "react";
 
-const ArtsGrid = ({ list, updateUserCart, userCart }) => {
+const ArtsGrid = ({ list }) => {
   const navigate = useNavigate();
+  const { userDetails, updateUserDetails } = useContext(UserContext);
+
+  const handleCartButtonClick = (artId, inCart) => {
+    const { cart } = JSON.parse(JSON.stringify(userDetails));
+
+    if (inCart) {
+      cart.splice(cart.indexOf(artId), 1);
+    } else {
+      cart.push(artId);
+    }
+    const payload = { cart };
+    updateUserDetails(payload);
+  };
+
   return (
     <Grid
       overflow="hidden"
@@ -12,7 +28,8 @@ const ArtsGrid = ({ list, updateUserCart, userCart }) => {
       className={classes.gridContainer}
     >
       {list.map((currentItem) => {
-        const inCart = userCart?.indexOf(currentItem.id) >= 0;
+        const inCart =
+          userDetails.cart?.indexOf(currentItem.id) < 0 ? false : true;
         return (
           <Grid.Col
             key={currentItem.id}
@@ -53,7 +70,7 @@ const ArtsGrid = ({ list, updateUserCart, userCart }) => {
                   px="xs"
                   fz="xs"
                   className={classes.btn}
-                  onClick={() => updateUserCart(currentItem.id, inCart)}
+                  onClick={() => handleCartButtonClick(currentItem.id, inCart)}
                 >
                   {inCart ? "Remove from Cart" : "Add to Cart"}
                 </Button>

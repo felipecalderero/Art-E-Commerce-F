@@ -4,9 +4,12 @@ import axios from "axios";
 import ArtistsGrid from "../components/ArtistsGrid";
 import { Title } from "@mantine/core";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
+import { UserContext } from "../context/user.context";
 
 const AllArtistsPage = () => {
   const [artists, setArtists] = useState([]);
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
+  const { fetchUserDetails } = useContext(UserContext);
   const { setItemList } = useContext(BreadcrumbContext);
 
   const getAllArtists = () => {
@@ -18,6 +21,7 @@ const AllArtistsPage = () => {
 
   useEffect(() => {
     getAllArtists();
+    fetchUserDetails(userId);
     setItemList([{ title: "All Artists" }]);
   }, []);
 

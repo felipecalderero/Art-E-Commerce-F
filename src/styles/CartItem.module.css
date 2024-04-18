@@ -5,46 +5,21 @@
   margin: 0rem 0rem 0rem 2rem;
   width: 30rem;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
 }
 
-.carCtn img {
-  width: auto;
+.cartImg {
+  width: 15rem;
   height: 8rem;
 }
 
 .textCtn {
   margin-left: 2rem;
   align-content: center;
-  width: 40rem;
+  width: 15rem;
 }
 
-.textCtn h1 {
-  font-size: 1.2rem;
-  margin: 0;
-  padding: 0;
-}
-.textCtn h2 {
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 0.6rem;
-}
-.textCtn h3 {
-  font-size: 0.8rem;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 0.8rem;
-}
-.textCtn h4 {
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-}
 .priceText {
   font-weight: 800;
 }

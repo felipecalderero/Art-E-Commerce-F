@@ -1,12 +1,5 @@
-.root {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  justify-content: space-between;
-}
-
 .cartList {
-  margin: 2rem 0rem 1rem 4rem;
+  margin: 1rem;
 }
 
 .totalCtn {
@@ -17,8 +10,7 @@
   align-items: center;
 }
 .priceText {
-  font-weight: 800;
-  font-size: 1.5rem;
+  display: inline;
 }
 .textCtn {
   margin-left: 2rem;

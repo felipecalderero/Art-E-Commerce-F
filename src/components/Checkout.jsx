@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
-import { Button, Timeline, Text } from "@mantine/core";
+import { Button, Timeline, Text, Title } from "@mantine/core";
+import { UserContext } from "../context/user.context";
 
 const Checkout = () => {
   const { userId } = useParams();
   const [cartDetails, setCartDetails] = useState([]);
   const [fetching, setFetching] = useState(true);
+  const navigate = useNavigate();
+  const { updateUserDetails } = useContext(UserContext);
 
   const getCart = () => {
     console.log("userId", userId);
@@ -53,27 +56,23 @@ const Checkout = () => {
 
     const filteredCart = [];
     filteredCartDetails.map((currentArt) => filteredCart.push(currentArt.id));
-    console.log(filteredCart);
-
-    axios
-      .patch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
-        cart: filteredCart,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const payload = {
+      cart: filteredCart,
+    };
+    updateUserDetails(payload);
   }
 
   return (
     <div className={classes.root}>
       <div className={classes.cartList}>
-        <h1>Your Order:</h1>
-        <Link to="/arts">
-          <p>Back to shopping</p>
-        </Link>
+        <Title order={1}>Your Order:</Title>
+        <Text
+          onClick={() => navigate("/arts")}
+          variant="gradient"
+          gradient={{ from: "pink", to: "yellow" }}
+        >
+          Back to shopping
+        </Text>
         {fetching ? (
           <p>Loading cart...</p>
         ) : (

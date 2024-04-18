@@ -18,10 +18,6 @@
   gap: rem(50);
 }
 
-body {
-  background-color: light-dark(#e6757d, #8644a2);
-}
-
 .title {
   font-family: Greycliff CF, var(--mantine-font-family);
   font-weight: 900;
@@ -30,4 +26,10 @@ body {
 
 .textButton {
   color: light-dark(white, white);
+}
+
+.background {
+  margin-top: 3rem;
+  align-content: center;
+  background-color: light-dark(#ffebb2, black);
 }

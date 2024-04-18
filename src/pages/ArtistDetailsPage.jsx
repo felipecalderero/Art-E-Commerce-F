@@ -218,7 +218,7 @@ const ArtistDetailsPage = () => {
   }, []);
 
   return (
-    <>
+    <div className={classes.background}>
       {artist ? (
         <>
           {/* Display artist personal information */}
@@ -333,7 +333,7 @@ const ArtistDetailsPage = () => {
           addUpdateArt={addUpdateArt}
         />
       </Modal>
-    </>
+    </div>
   );
 };
 

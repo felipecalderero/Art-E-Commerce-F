@@ -16,12 +16,12 @@ import ArtistDetailsPage from "./pages/ArtistDetailsPage.jsx";
 
 //import Navbar from "/src/components/Navbar.jsx";
 //import Footer from "/src/components/Footer.jsx";
+//import classes from "./styles/App.module.css";
 
 function App() {
   return (
     <div
-      className="App"
-      style={{ backgroundColor: "light-dark(#ffebb2, black)" }}
+      style={{ backgroundColor: "light-dark(#ffebb2, black)", heigth: "100%" }}
     >
       <UserProviderWrapper>
         <BreadcrumbWrapper>

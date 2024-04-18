@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import AppBreadcrumbs from "./AppBreadcrumbs";
+import { FooterCentered } from "./FooterCentered";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const Layout = ({ children }) => {
         </>
       )}
       {children}
+      <FooterCentered />
     </div>
   );
 };

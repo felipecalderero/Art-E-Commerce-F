@@ -12,15 +12,16 @@ const AllArtistsPage = () => {
   const { fetchUserDetails } = useContext(UserContext);
   const { setItemList } = useContext(BreadcrumbContext);
 
-  const getAllArtists = () => {
+  // Fetch all artist details from DB
+  const fetchAllArtists = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/users?role=artist`)
       .then((response) => setArtists(response.data))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   useEffect(() => {
-    getAllArtists();
+    fetchAllArtists();
     fetchUserDetails(userId);
     setItemList([{ title: "All Artists" }]);
   }, []);

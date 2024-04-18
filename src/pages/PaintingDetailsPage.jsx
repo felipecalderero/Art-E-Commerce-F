@@ -25,10 +25,11 @@ const PaintingDetailsPage = () => {
   const artId = parseInt(useParams().artId);
 
   const { userDetails, updateUserDetails } = useContext(UserContext);
-  const inCart = userDetails.cart?.indexOf(artId) < 0 ? false : true;
+  const inUserCart = userDetails.cart?.indexOf(artId) < 0 ? false : true;
   const { setItemList } = useContext(BreadcrumbContext);
 
-  const getArt = () => {
+  // Fetch art details from DB
+  const fetchArt = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/arts/${artId}`)
       .then((response) => {
@@ -39,9 +40,10 @@ const PaintingDetailsPage = () => {
           { title: currentArt.title },
         ]);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
+  // Update art's inCart count
   const updateArtDetails = async (payload) => {
     try {
       const response = await fetch(
@@ -60,28 +62,29 @@ const PaintingDetailsPage = () => {
         throw new Error(response);
       }
     } catch (error) {
-      console.log("Error while updating art data: ", error);
+      console.error("Error while updating art data: ", error);
     }
   };
 
+  // Form payload - add/remove from cart and update Art's inCart count
   const handleCartButtonClick = () => {
     const { cart } = JSON.parse(JSON.stringify(userDetails));
-    let inCartArtCount = art.inCart;
-    if (inCart) {
+    let artInCartCount = art.inCart;
+    if (inUserCart) {
       cart.splice(cart.indexOf(artId), 1);
-      inCartArtCount -= 1;
+      artInCartCount -= 1;
     } else {
       cart.push(artId);
-      inCartArtCount += 1;
+      artInCartCount += 1;
     }
     const updateUserPayload = { cart };
     updateUserDetails(updateUserPayload);
-    const updateArtPayload = { inCart: inCartArtCount };
+    const updateArtPayload = { inCart: artInCartCount };
     updateArtDetails(updateArtPayload);
   };
 
   useEffect(() => {
-    getArt();
+    fetchArt();
   }, []);
 
   return (
@@ -120,23 +123,21 @@ const PaintingDetailsPage = () => {
               >
                 <Stack gap={rem(10)}>
                   <Text size="sm">
-                    <strong>Medium:</strong> {art.category}
+                    <strong>Category:</strong> {art.category}
                   </Text>
                   <Text size="sm">
                     <strong>Size:</strong> {art.size}cm
                   </Text>
-                  {art.date && (
-                    <Text size="sm">
-                      <strong>Year:</strong> {art.date}
-                    </Text>
-                  )}
+                  <Text size="sm">
+                    <strong>Year:</strong> {art.date ? art.date : " - "}
+                  </Text>
                 </Stack>
                 <Link to={"/users/" + art.userId}>
                   <Image
                     src={
                       art.photo
                         ? art.photo
-                        : art.gender === "female"
+                        : art.gender === "Female"
                         ? womanPlaceholder
                         : manPlaceholder
                     }
@@ -170,7 +171,7 @@ const PaintingDetailsPage = () => {
                       color="black"
                       onClick={handleCartButtonClick}
                     >
-                      {inCart ? "Remove from Cart" : "Add to Cart"}
+                      {inUserCart ? "Remove from Cart" : "Add to Cart"}
                     </Button>
                   )}
                 </Group>

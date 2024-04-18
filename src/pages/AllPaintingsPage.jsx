@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 //import Search from "../components/Search";
 import axios from "axios";
@@ -12,13 +11,15 @@ const AllPaintingsPage = () => {
   const { fetchUserDetails } = useContext(UserContext);
   const { setItemList } = useContext(BreadcrumbContext);
 
-  const getAllArtworks = () => {
+  // Fetch all art works from DB
+  const fetchAllArtworks = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/arts`)
       .then((response) => setArtworks(response.data))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
+  // Update inCart count of Art
   const updateArtDetail = (artId, inCartCount) => {
     setArtworks(
       artworks.map((currentArt) => {
@@ -31,7 +32,7 @@ const AllPaintingsPage = () => {
   };
 
   useEffect(() => {
-    getAllArtworks();
+    fetchAllArtworks();
     fetchUserDetails(userId);
     setItemList([{ title: "All Painting" }]);
   }, []);

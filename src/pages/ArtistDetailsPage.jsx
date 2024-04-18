@@ -1,80 +1,108 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
 import {
   Button,
   Container,
-  Flex,
   Group,
-  Image,
   Modal,
-  PasswordInput,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-  TextInput,
+  ScrollArea,
   Title,
   rem,
 } from "@mantine/core";
-import womanPlaceholder from "../assets/images/woman_placeholder.jpg";
-import manPlaceholder from "../assets/images/man_placeholder.jpg";
-import no_photo from "../assets/images/no_photo.png";
-import { IconEdit } from "@tabler/icons-react";
+
 import classes from "../styles/ArtistDetailsPage.module.css";
 import ArtsGrid from "../components/ArtsGrid";
 import { useDisclosure } from "@mantine/hooks";
+import AddEditArtModal from "../components/AddEditArtModal";
+import EditArtistModal from "../components/EditArtistModal";
+import DeleteArtModal from "../components/DeleteArtModal";
+import ArtistPersonalInfo from "../components/ArtistPersonalInfo";
 
 const ArtistDetailsPage = () => {
   const artistId = parseInt(useParams().userId);
   const { setItemList } = useContext(BreadcrumbContext);
   const [artist, setArtist] = useState(null);
 
+  // Handle artist's personal info update modal
   let [opened, { open, close }] = useDisclosure(false);
-  const editModal = { opened, open, close };
-  [opened, { open, close }] = useDisclosure(false);
-  const deleteModal = { opened, open, close };
-  const [deleteArtId, setDeleteArtId] = useState(null);
-  const [canDelete, setCanDelete] = useState(false);
+  const editPersonalInfoModal = { opened, open, close };
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("buyer");
-  const [photo, setPhoto] = useState(no_photo);
+  // Handle delete art modal
+  [opened, { open, close }] = useDisclosure(false);
+  const deleteArtModal = { opened, open, close };
+  const [deleteArtId, setDeleteArtId] = useState(null);
+  const [canDeleteArt, setCanDeleteArt] = useState(false);
+
+  // Handle artist's personal info update modal
+  [opened, { open, close }] = useDisclosure(false);
+  const addEditArtModal = { opened, open, close };
+
+  const [prefillArtDetail, setPrefillArtDetail] = useState({
+    title: "",
+    description: "",
+    category: "",
+    size: "",
+    date: "",
+    image: "",
+    userId: artistId,
+    price: 0,
+    inCart: 0,
+  });
+  const [isNewArt, setIsNewArt] = useState(true);
+
   const userId = JSON.parse(localStorage.getItem("user")).userId;
   const isArtistLoggedIn = userId === artistId;
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "",
-    photo: "",
-  });
 
-  const navigate = useNavigate();
-
-  const getArtist = () => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/users/${artistId}?_embed=arts`)
-      .then((response) => {
-        const artist = response.data;
-        setArtist(artist);
+  // Fetch Artist information
+  const fetchArtist = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/${artistId}?_embed=arts`
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        setArtist(responseData);
         setItemList([
           { title: "All Artists", url: "/artists" },
-          { title: artist.name },
+          { title: responseData.name },
         ]);
-        setName(artist.name);
-        setEmail(artist.email);
-        setPassword(artist.password);
-        setRole(artist.role);
-        setPhoto(artist.photo);
-      })
-      .catch((error) => console.log(error));
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.error(
+        "Error while fetching artist details:",
+        JSON.stringify(error)
+      );
+    }
   };
 
-  const updateArtDetail = (artId, inCartCount) => {
+  // Open modal for update art and Prefill art details
+  const openUpdateArtModal = (artDetail) => {
+    setPrefillArtDetail(artDetail);
+    setIsNewArt(false);
+    addEditArtModal.open();
+  };
+
+  // Close add/update art modal and set its prefill value to empty
+  const closeAddEditArtModal = () => {
+    setPrefillArtDetail({
+      title: "",
+      description: "",
+      category: "",
+      size: "",
+      date: "",
+      image: "",
+      userId: artistId,
+      price: 0,
+      inCart: 0,
+    });
+    addEditArtModal.close();
+  };
+
+  // Update inCart count of Art in state Artist
+  const updateArtistDetail = (artId, inCartCount) => {
     setArtist({
       ...artist,
       arts: artist.arts.map((currentArt) => {
@@ -86,13 +114,84 @@ const ArtistDetailsPage = () => {
     });
   };
 
-  const confirmDelete = (artId, inCartCount) => {
-    if (inCartCount === 0) setCanDelete(true);
-    else setCanDelete(false);
-    setDeleteArtId(artId);
-    deleteModal.open();
+  // Update Artist's personal info in DB
+  const updateArtistPersonalInfo = async (payload) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/${artist.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        setArtist({ ...artist, ...responseData });
+        editPersonalInfoModal.close();
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.error(
+        "Error occured while updating artist info:",
+        JSON.stringify(error)
+      );
+      // setErrors({ ...errors, email: "Registration failed. Please try again." });
+    }
   };
 
+  // Add or update art in DB
+  const addUpdateArt = async (payload) => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_API_URL.concat(
+          isNewArt ? `/arts` : `/arts/${prefillArtDetail.id}`
+        ),
+        {
+          method: isNewArt ? "POST" : "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Data saved successfully");
+        if (isNewArt) {
+          setArtist({ ...artist, arts: [...artist.arts, responseData] });
+        } else {
+          setArtist({
+            ...artist,
+            arts: artist.arts.map((currentArt) => {
+              if (currentArt.id === responseData.id) {
+                return { ...currentArt, ...responseData };
+              }
+              return currentArt;
+            }),
+          });
+        }
+        closeAddEditArtModal();
+      } else {
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.error("Error while add/update art:", error);
+    }
+  };
+
+  // Set flag CanDeleteArt and open delete art modal
+  const confirmDelete = (artId, inCartCount) => {
+    if (inCartCount === 0) setCanDeleteArt(true);
+    else setCanDeleteArt(false);
+    setDeleteArtId(artId);
+    deleteArtModal.open();
+  };
+
+  // Delete art in DB
   const deleteArt = async () => {
     try {
       const response = await fetch(
@@ -100,135 +199,38 @@ const ArtistDetailsPage = () => {
         { method: "DELETE" }
       );
       if (response.ok) {
+        console.log("Art deleted sucessfully");
         setArtist({
           ...artist,
           arts: artist.arts.filter((item) => item.id != deleteArtId),
         });
-        deleteModal.close();
-        console.log("Art deleted sucessfully");
+        deleteArtModal.close();
       } else {
         throw new Error(response);
       }
     } catch (error) {
-      console.log("Error while deleting art: ", error);
-    }
-  };
-
-  // Function to validate email format
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  // Function to handle form submission
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Validate inputs
-    let validationErrors = {};
-    if (!name) validationErrors.name = "Name is required";
-    if (!email) validationErrors.email = "Email is required";
-    else if (!isValidEmail(email))
-      validationErrors.email = "Invalid email format";
-    if (!password) validationErrors.password = "Password is required";
-    if (!role) validationErrors.role = "Please select your role";
-
-    setErrors(validationErrors);
-
-    // Check if there are any errors
-    if (Object.keys(validationErrors).length > 0) return;
-
-    // Send registration data to the server
-    try {
-      const response = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/users/${artist.id}`,
-        {
-          name,
-          email,
-          password,
-          role,
-          cart: [],
-          photo,
-        }
-      );
-      console.log(response.data); // Handle the response from the server
-      navigate(`/users/${artist.id}`, { state: { email } }); // Navigate to login with email in state
-    } catch (error) {
-      console.error("Registration failed:", error);
-      setErrors({ ...errors, email: "Registration failed. Please try again." });
+      console.error("Error while deleting art: ", error);
     }
   };
 
   useEffect(() => {
-    getArtist();
+    fetchArtist();
   }, []);
 
   return (
     <>
       {artist ? (
         <>
+          {/* Display artist personal information */}
           <Container className={classes.artistContainer}>
-            <Flex
-              gap={{ base: "30", md: rem(100) }}
-              justify={{ base: "space-around", md: "space-between" }}
-              align="center"
-              direction="row"
-              wrap={{ base: "wrap", md: "nowrap" }}
-            >
-              <div className={classes.left}>
-                <Image
-                  src={
-                    artist.photo
-                      ? artist.photo
-                      : artist.gender === "female"
-                      ? womanPlaceholder
-                      : manPlaceholder
-                  }
-                  className={classes.userImg}
-                  mt={{ base: rem(10), md: "nowrap" }}
-                />
-              </div>
-              <Stack gap={rem(30)} w={{ base: rem(270), md: rem(600) }}>
-                <Group justify="space-between">
-                  <Title order={3} tt="uppercase">
-                    {artist.name}
-                  </Title>
-                  {isArtistLoggedIn && (
-                    <Button
-                      w={50}
-                      p={3}
-                      variant="subtle"
-                      color="light-dark(black, orange)"
-                      onClick={editModal.open}
-                    >
-                      <IconEdit />
-                    </Button>
-                  )}
-                </Group>
-
-                <Text>{artist.description}</Text>
-                <Flex
-                  justify="space-between"
-                  wrap={{ base: "wrap", md: "nowrap" }}
-                >
-                  <Stack gap={rem(10)}>
-                    <Text size="sm">
-                      <strong>Nationality:</strong> {artist.nationality}
-                    </Text>
-                    <Text size="sm">
-                      <strong>Gender:</strong>{" "}
-                      {artist.gender[0].toUpperCase() + artist.gender.slice(1)}
-                    </Text>
-                  </Stack>
-                  <Stack gap={rem(10)}>
-                    <Text size="sm">
-                      <strong>Email:</strong> {artist.email}
-                    </Text>
-                  </Stack>
-                </Flex>
-              </Stack>
-            </Flex>
+            <ArtistPersonalInfo
+              artistDetails={artist}
+              isArtistLoggedIn={isArtistLoggedIn}
+              editPersonalInfoModal={editPersonalInfoModal.open}
+            />
           </Container>
+
+          {/* Artist's Arts display */}
           <>
             <Title order={2} ta="center">
               All Artworks by {artist.name}
@@ -236,25 +238,28 @@ const ArtistDetailsPage = () => {
             {artist.arts?.length ? (
               <ArtsGrid
                 list={artist.arts}
-                editDeleteShow={isArtistLoggedIn}
+                page={"artist"}
                 confirmDelete={confirmDelete}
-                updateArt={updateArtDetail}
+                updateArtistDetail={updateArtistDetail}
+                openUpdateArtModal={openUpdateArtModal}
               ></ArtsGrid>
             ) : (
-              <Title order={5} ta="center" h={rem(50)}>
+              <Title order={6} ta="center" h={rem(50)} mt="lg" fw="500">
                 No Art
               </Title>
             )}
+
             {isArtistLoggedIn && (
-              <Group justify="center">
+              <Group justify="center" m="lg">
                 <Button
                   variant="outline"
                   color="light-dark(black, orange)"
                   onClick={() => {
-                    console.log("add art button clicked");
+                    setIsNewArt(true);
+                    addEditArtModal.open();
                   }}
                 >
-                  New Art
+                  Add Art
                 </Button>
               </Group>
             )}
@@ -263,77 +268,60 @@ const ArtistDetailsPage = () => {
       ) : (
         <p>Loading details...</p> // Provide a loading state feedback
       )}
+
+      {/* Update artist modal */}
       <Modal
-        opened={editModal.opened}
-        onClose={editModal.close}
+        opened={editPersonalInfoModal.opened}
+        onClose={editPersonalInfoModal.close}
+        size="auto"
         title="Personal Information"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        scrollAreaComponent={ScrollArea.Autosize}
       >
-        <TextInput
-          label="Name"
-          placeholder="Your name"
-          required
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-          error={errors.name}
+        <EditArtistModal
+          artistDetails={artist}
+          updateArtistPersonalInfo={updateArtistPersonalInfo}
         />
-        <TextInput
-          label="Email"
-          placeholder="example@domain.com"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-          error={errors.email}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-          error={errors.password}
-        />
-        <RadioGroup
-          label="Role"
-          required
-          value={role}
-          onChange={setRole}
-          error={errors.role}
-        >
-          <Radio value="buyer" label="Buyer Only" />
-          <Radio value="artist" label="Artist" />
-        </RadioGroup>
-
-        <TextInput
-          label="Photo"
-          placeholder="your_image_url"
-          value={photo}
-          onChange={(event) => setPhoto(event.currentTarget.value)}
-          error={errors.photo}
-        />
-
-        <Image radius="xl" src={photo} />
-
-        <Button fullWidth mt="xl" onClick={handleSubmit}>
-          Update Personal Information
-        </Button>
       </Modal>
+
+      {/* Delete art modal */}
       <Modal
-        opened={deleteModal.opened}
-        onClose={deleteModal.close}
+        opened={deleteArtModal.opened}
+        onClose={deleteArtModal.close}
         title="Confirm Deletion"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
       >
-        <Text>
-          {canDelete
-            ? "Are you sure you want to delete this item?"
-            : "You can not delete this art. People have added to the cart"}
-        </Text>
-        <Button
-          fullWidth
-          mt="xl"
-          onClick={canDelete ? deleteArt : deleteModal.close}
-        >
-          {canDelete ? "Delete" : "Ok"}
-        </Button>
+        <DeleteArtModal
+          canDeleteArt={canDeleteArt}
+          deleteArt={deleteArt}
+          deleteArtModal={deleteArtModal.close}
+        />
+      </Modal>
+
+      {/* Update art modal */}
+      <Modal
+        opened={addEditArtModal.opened}
+        onClose={() => {
+          closeAddEditArtModal();
+        }}
+        title="Art Details"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        scrollAreaComponent={ScrollArea.Autosize}
+      >
+        <AddEditArtModal
+          isNew={isNewArt}
+          artDetail={prefillArtDetail}
+          addUpdateArt={addUpdateArt}
+        />
       </Modal>
     </>
   );

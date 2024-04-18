@@ -5,7 +5,13 @@ import { UserContext } from "../context/user.context";
 import { useContext } from "react";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 
-const ArtsGrid = ({ list, editDeleteShow, confirmDelete, updateArt }) => {
+const ArtsGrid = ({
+  list,
+  page,
+  confirmDelete,
+  updateArtistDetail,
+  openUpdateArtModal,
+}) => {
   const navigate = useNavigate();
   const { userDetails, updateUserDetails } = useContext(UserContext);
 
@@ -44,7 +50,7 @@ const ArtsGrid = ({ list, editDeleteShow, confirmDelete, updateArt }) => {
     updateUserDetails(updateUserPayload);
     const updateArtPayload = { inCart: inCartCount };
     updateArtDetails(artId, updateArtPayload);
-    updateArt(artId, updateArtPayload.inCart);
+    updateArtistDetail(artId, updateArtPayload.inCart);
   };
 
   return (
@@ -57,6 +63,7 @@ const ArtsGrid = ({ list, editDeleteShow, confirmDelete, updateArt }) => {
       {list.map((currentItem) => {
         const isInCart =
           userDetails.cart?.indexOf(currentItem.id) < 0 ? false : true;
+        const isUserArt = currentItem.userId === userDetails.id;
         return (
           <Grid.Col
             key={currentItem.id}
@@ -91,13 +98,14 @@ const ArtsGrid = ({ list, editDeleteShow, confirmDelete, updateArt }) => {
                   <Text size="sm">{currentItem.category}</Text> |
                   <Text size="sm">{currentItem.size} cm</Text>
                 </Group>
-                {editDeleteShow && (
+                {page === "artist" && isUserArt && (
                   <div>
                     <Button
                       w={30}
                       p={0}
                       variant="subtle"
                       color="light-dark(black, orange)"
+                      onClick={() => openUpdateArtModal(currentItem)}
                     >
                       <IconPencil />
                     </Button>
@@ -117,23 +125,25 @@ const ArtsGrid = ({ list, editDeleteShow, confirmDelete, updateArt }) => {
               </Group>
               <Group justify="space-between" align="center">
                 <Text>{currentItem.price}€</Text>
-                <Button
-                  variant="outline"
-                  size="xs"
-                  color="light-dark(rgba(26, 25, 25, 1), orange)"
-                  px="xs"
-                  fz="xs"
-                  className={classes.btn}
-                  onClick={() => {
-                    handleCartButtonClick(
-                      currentItem.id,
-                      currentItem.inCart,
-                      isInCart
-                    );
-                  }}
-                >
-                  {isInCart ? "Remove from Cart" : "Add to Cart"}
-                </Button>
+                {!isUserArt && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    color="light-dark(rgba(26, 25, 25, 1), orange)"
+                    px="xs"
+                    fz="xs"
+                    className={classes.btn}
+                    onClick={() => {
+                      handleCartButtonClick(
+                        currentItem.id,
+                        currentItem.inCart,
+                        isInCart
+                      );
+                    }}
+                  >
+                    {isInCart ? "Remove from Cart" : "Add to Cart"}
+                  </Button>
+                )}
               </Group>
             </Paper>
           </Grid.Col>

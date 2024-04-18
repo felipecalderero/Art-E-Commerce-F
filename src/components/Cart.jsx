@@ -67,15 +67,11 @@ const Cart = ({ closeDrawer }) => {
 
   return (
     <div className={classes.cartList}>
-      <Title order={1} mb="lg">
+      <Title order={1} mb="lg" className={classes.title}>
         Your Cart
       </Title>
 
-      <Text
-        onClick={closeDrawer}
-        variant="gradient"
-        gradient={{ from: "pink", to: "yellow" }}
-      >
+      <Text c="light-dark(#e6757d, #8644a2)" onClick={closeDrawer} order={3}>
         Continue shopping
       </Text>
 
@@ -88,8 +84,8 @@ const Cart = ({ closeDrawer }) => {
       )}
       <div className={classes.totalCtn}>
         <Button
+          color="light-dark(#e6757d, #8644a2)"
           variant="filled"
-          color="gray"
           size="md"
           radius="xl"
           onClick={() => {

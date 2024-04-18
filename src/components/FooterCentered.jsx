@@ -19,7 +19,7 @@ const links = [
 export function FooterCentered() {
   const items = links.map((link) => (
     <Anchor
-      c="light-dark(#ffebb2, black)"
+      c="light-dark(#ffebb2, #ffebb2)"
       key={link.label}
       href={link.link}
       lh={1}
@@ -41,7 +41,7 @@ export function FooterCentered() {
             size="lg"
             variant="default"
             radius="xl"
-            c="light-dark(#e6757d, black)"
+            c="light-dark(#e6757d, #8644a2)"
           >
             <IconBrandTwitter
               style={{ width: rem(18), height: rem(18) }}
@@ -52,7 +52,7 @@ export function FooterCentered() {
             size="lg"
             variant="default"
             radius="xl"
-            c="light-dark(#e6757d, black)"
+            c="light-dark(#e6757d, #8644a2)"
           >
             <IconBrandYoutube
               style={{ width: rem(18), height: rem(18) }}
@@ -63,7 +63,7 @@ export function FooterCentered() {
             size="lg"
             variant="default"
             radius="xl"
-            c="light-dark(#e6757d, black)"
+            c="light-dark(#e6757d, #8644a2)"
           >
             <IconBrandInstagram
               style={{ width: rem(18), height: rem(18) }}

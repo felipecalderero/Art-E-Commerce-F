@@ -19,10 +19,10 @@ const CartItem = ({ art, handleDelete }) => {
         <div className={classes.buttonCtn}>
           <Button
             onClick={() => handleDelete(art.id)}
-            variant="filled"
-            color="yellow"
+            variant="outline"
             size="xs"
             radius="xl"
+            color="light-dark(#e6757d, #8644a2)"
           >
             Remove
           </Button>

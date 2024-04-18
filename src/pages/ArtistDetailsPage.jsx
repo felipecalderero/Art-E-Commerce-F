@@ -328,7 +328,7 @@ const ArtistDetailsPage = () => {
         scrollAreaComponent={ScrollArea.Autosize}
       >
         <AddEditArtModal
-          isNew={isNewArt}
+          isNewArt={isNewArt}
           artDetail={prefillArtDetail}
           addUpdateArt={addUpdateArt}
         />

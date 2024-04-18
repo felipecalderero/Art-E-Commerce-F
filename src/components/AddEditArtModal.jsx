@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 
-const AddEditModal = ({ isNew, artDetail, addUpdateArt }) => {
+const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
   const [title, setTitle] = useState(artDetail.title);
   const [description, setDescription] = useState(artDetail.description);
   const [category, setCategory] = useState(artDetail.category);
@@ -128,7 +128,7 @@ const AddEditModal = ({ isNew, artDetail, addUpdateArt }) => {
         variant="outline"
         color="light-dark(black, orange)"
       >
-        {isNew ? "Add Art" : "Update Art"}
+        {isNewArt ? "Add Art" : "Update Art"}
       </Button>
     </Stack>
   );

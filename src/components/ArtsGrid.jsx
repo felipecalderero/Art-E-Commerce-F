@@ -5,7 +5,13 @@ import { UserContext } from "../context/user.context";
 import { useContext } from "react";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 
-const ArtsGrid = ({ list, page, confirmDelete, updateArt, editArt }) => {
+const ArtsGrid = ({
+  list,
+  page,
+  confirmDelete,
+  updateArtistDetail,
+  openUpdateArtModal,
+}) => {
   const navigate = useNavigate();
   const { userDetails, updateUserDetails } = useContext(UserContext);
 
@@ -44,7 +50,7 @@ const ArtsGrid = ({ list, page, confirmDelete, updateArt, editArt }) => {
     updateUserDetails(updateUserPayload);
     const updateArtPayload = { inCart: inCartCount };
     updateArtDetails(artId, updateArtPayload);
-    updateArt(artId, updateArtPayload.inCart);
+    updateArtistDetail(artId, updateArtPayload.inCart);
   };
 
   return (
@@ -99,7 +105,7 @@ const ArtsGrid = ({ list, page, confirmDelete, updateArt, editArt }) => {
                       p={0}
                       variant="subtle"
                       color="light-dark(black, orange)"
-                      onClick={() => editArt(currentItem)}
+                      onClick={() => openUpdateArtModal(currentItem)}
                     >
                       <IconPencil />
                     </Button>

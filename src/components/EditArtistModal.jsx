@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import no_photo from "../assets/images/no_photo.png";
 
-const EditArtistModal = ({ artistDetails, updateArtist }) => {
+const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
   const [name, setName] = useState(artistDetails.name);
   const [description, setDescription] = useState(
     artistDetails.description || ""
@@ -64,7 +64,7 @@ const EditArtistModal = ({ artistDetails, updateArtist }) => {
       photo,
       // role,
     };
-    updateArtist(payload);
+    updateArtistPersonalInfo(payload);
   };
   return (
     <Stack gap={15}>

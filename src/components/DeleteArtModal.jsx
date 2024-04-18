@@ -1,10 +1,10 @@
 import { Button, Text } from "@mantine/core";
 
-const DeleteArtModal = ({ canDelete, deleteArt, closeModal }) => {
+const DeleteArtModal = ({ canDeleteArt, deleteArt, deleteArtModal }) => {
   return (
     <>
       <Text>
-        {canDelete
+        {canDeleteArt
           ? "Are you sure you want to delete this item?"
           : "You can not delete this art. People have added to the cart"}
       </Text>
@@ -13,9 +13,9 @@ const DeleteArtModal = ({ canDelete, deleteArt, closeModal }) => {
         mt="xl"
         variant="outline"
         color="light-dark(black, orange)"
-        onClick={canDelete ? deleteArt : closeModal}
+        onClick={canDeleteArt ? deleteArt : deleteArtModal}
       >
-        {canDelete ? "Delete" : "Ok"}
+        {canDeleteArt ? "Delete" : "Ok"}
       </Button>
     </>
   );

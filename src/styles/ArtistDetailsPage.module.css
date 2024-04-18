@@ -1,22 +1,8 @@
 .artistContainer {
-  height: 85vh;
+  height: 70vh;
   display: flex;
   align-items: center;
   position: relative;
-}
-
-.left {
-  width: 55%;
-  height: 50%;
-}
-
-.userImg {
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  max-height: 100%;
-  max-width: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .artContainer {

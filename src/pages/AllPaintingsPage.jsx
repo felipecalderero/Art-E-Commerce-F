@@ -41,7 +41,7 @@ const AllPaintingsPage = () => {
       <ArtsGrid
         list={artworks}
         page={"all-art"}
-        updateArt={updateArtDetail}
+        updateArtistDetail={updateArtDetail}
       ></ArtsGrid>
     </>
   );

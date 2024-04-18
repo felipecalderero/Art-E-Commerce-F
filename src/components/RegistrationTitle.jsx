@@ -2,6 +2,7 @@ import {
   TextInput,
   PasswordInput,
   Radio,
+  CheckIcon,
   RadioGroup,
   Anchor,
   Paper,
@@ -13,7 +14,7 @@ import {
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import classes from "../styles/AuthenticationTitle.module.css";
+import classes from "../styles/RegisterTitle.module.css";
 
 export function RegistrationTitle() {
   const [name, setName] = useState("");
@@ -74,55 +75,79 @@ export function RegistrationTitle() {
   };
 
   return (
-    <Container size={420} my={40}>
-      <Title className={classes.title} ta="center">
-        Create Your Account
-      </Title>
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Name"
-          placeholder="Your name"
-          required
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-          error={errors.name}
-        />
-        <TextInput
-          label="Email"
-          placeholder="example@domain.com"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-          error={errors.email}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-          error={errors.password}
-        />
-        <RadioGroup
-          label="Role"
-          required
-          value={role}
-          onChange={setRole}
-          error={errors.role}
-        >
-          <Radio value="buyer" label="Buyer Only" />
-          <Radio value="artist" label="Artist" />
-        </RadioGroup>
-        <Button fullWidth mt="xl" onClick={handleSubmit}>
-          Register
-        </Button>
-        <Text align="center" size="sm" mt="md">
-          Already have an account?{" "}
-          <Anchor component={Link} to="/" size="sm">
-            Sign in
-          </Anchor>
-        </Text>
-      </Paper>
-    </Container>
+    <div className={classes.background}>
+      <Container size={420} my={40}>
+        <Title className={classes.title} ta="center" textWrap="wrap">
+          Create <br />
+          Your Account
+        </Title>
+        <Paper shadow="md" p={30} mt={30} radius="xl">
+          <TextInput
+            radius="xl"
+            label="Name"
+            placeholder="Your name"
+            required
+            value={name}
+            onChange={(event) => setName(event.currentTarget.value)}
+            error={errors.name}
+          />
+          <TextInput
+            radius="xl"
+            label="Email"
+            placeholder="example@domain.com"
+            required
+            value={email}
+            onChange={(event) => setEmail(event.currentTarget.value)}
+            error={errors.email}
+          />
+          <PasswordInput
+            radius="xl"
+            label="Password"
+            placeholder="Your password"
+            required
+            value={password}
+            onChange={(event) => setPassword(event.currentTarget.value)}
+            error={errors.password}
+          />
+          <RadioGroup
+            label="Role"
+            required
+            value={role}
+            onChange={setRole}
+            error={errors.role}
+          >
+            <Radio
+              icon={CheckIcon}
+              color="#e6757d"
+              value="buyer"
+              label="Buyer Only"
+            />
+            <Radio
+              icon={CheckIcon}
+              color="#e6757d"
+              value="artist"
+              label="Artist"
+            />
+          </RadioGroup>
+          <Button
+            variant="filled"
+            radius="xl"
+            v
+            fullWidth
+            color="#e6757d"
+            mt="xl"
+            onClick={handleSubmit}
+          >
+            <span className={classes.buttonText}>Register</span>
+          </Button>
+          <Text align="center" size="sm" mt="md">
+            Already have an account?{" "}
+            <Anchor component={Link} to="/" size="sm">
+              Sign in
+            </Anchor>
+          </Text>
+        </Paper>
+      </Container>
+    </div>
   );
 }

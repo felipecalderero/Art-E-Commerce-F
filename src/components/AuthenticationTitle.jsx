@@ -9,6 +9,7 @@ import {
   Container,
   Group,
   Button,
+  BackgroundImage,
 } from "@mantine/core";
 import classes from "../styles/AuthenticationTitle.module.css";
 import { useEffect, useState } from "react";
@@ -83,45 +84,60 @@ export function AuthenticationTitle() {
   };
 
   return (
-    <Container size={420} my={40}>
-      <Title ta="center" className={classes.title}>
-        Welcome to Art-Market!
-      </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{" "}
-        <Anchor size="sm" component="button">
-          <Link to={"/register"}>Create account</Link>
-        </Anchor>
-      </Text>
+    <div className={classes.background}>
+      <div className={classes.container}>
+        <Container size={420} my={40}>
+          <Title ta="center" className={classes.title}>
+            Welcome to <br />
+            Art-Market!
+          </Title>
+          <br />
+          <Text c="#e6757d" size="sm" ta="center" mt={5}>
+            Do not have an account yet?{" "}
+            <Anchor size="sm" component="button">
+              <Link to={"/register"}>Create account</Link>
+            </Anchor>
+          </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Email"
-          placeholder="your@email.com"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-          error={errorEmail}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          mt="md"
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-          error={errorPassword}
-        />
-        <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me" />
-          <Anchor component="button" size="sm">
-            <Link to={"/forgotpassword"}>Forgot password?</Link>
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl" onClick={handleSubmit}>
-          Sign in
-        </Button>
-      </Paper>
-    </Container>
+          <Paper shadow="md" p={30} mt={30} radius="xl">
+            <TextInput
+              radius="xl"
+              label="Email"
+              placeholder="your@email.com"
+              required
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+              error={errorEmail}
+            />
+            <PasswordInput
+              radius="xl"
+              label="Password"
+              placeholder="Your password"
+              required
+              mt="md"
+              value={password}
+              onChange={(event) => setPassword(event.currentTarget.value)}
+              error={errorPassword}
+            />
+            <Group justify="space-between" mt="lg">
+              <Checkbox color="#e6757d" radius="md" label="Remember me" />
+              <Anchor component="button" size="sm">
+                <Link to={"/forgotpassword"}>Forgot password?</Link>
+              </Anchor>
+            </Group>
+            <Button
+              variant="filled"
+              radius="xl"
+              fullWidth
+              color="#e6757d"
+              mt="xl"
+              onClick={handleSubmit}
+            >
+              <span className={classes.buttonText}>Sign in</span>
+            </Button>
+          </Paper>
+        </Container>
+      </div>
+    </div>
   );
 }

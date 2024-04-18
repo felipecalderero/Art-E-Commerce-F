@@ -23,7 +23,27 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
     size: "",
     price: "",
     artImage: "",
+    year: "",
+    image: "",
   });
+
+  // Function to validate email format
+  const isValidSize = (size) => {
+    const sizeRegex = /^\d+\s*x\s*\d+$/i;
+    return sizeRegex.test(size);
+  };
+
+  // Function to validate year format
+  const isValidYear = (year) => {
+    const yearRegex = /^\d{4}$/;
+    return yearRegex.test(year);
+  };
+
+  // Function to validate link format
+  const isValidLink = (link) => {
+    const linkRegex = /http[s]?:\/\/[^\s/$.?#].[^\s]*/;
+    return linkRegex.test(link);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,8 +53,14 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
     if (!title) validationErrors.title = "Title is required";
     if (!category) validationErrors.category = "Category is required";
     if (!size) validationErrors.size = "Size is required";
+    else if (!isValidSize(size)) validationErrors.size = "Invalid size format";
+
     if (!price) validationErrors.price = "Price is required";
     if (!artImage) validationErrors.artImage = "Art image is required";
+    else if (!isValidLink(artImage)) validationErrors.image = "Invalid URL";
+
+    if (date.length && !isValidYear(date))
+      validationErrors.year = "Enter valid year";
 
     setErrors(validationErrors);
 
@@ -83,7 +109,7 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
       />
       <TextInput
         label="Size"
-        placeholder="Size"
+        placeholder="80 X 80"
         required
         value={size}
         onChange={(event) => setSize(event.currentTarget.value)}
@@ -101,6 +127,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         placeholder="Price"
         required
         value={price}
+        allowNegative={false}
+        min={0}
         onChange={setPrice}
         error={errors.price}
       />
@@ -110,7 +138,7 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         required
         value={artImage}
         onChange={(event) => setArtImage(event.currentTarget.value)}
-        error={errors.artImage}
+        error={errors.image}
       />
 
       <Image

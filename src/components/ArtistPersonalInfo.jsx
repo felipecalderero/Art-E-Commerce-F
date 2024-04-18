@@ -24,7 +24,7 @@ const ArtistPersonalInfo = ({
         gap={{ base: "30", md: rem(100) }}
         justify={{ base: "space-around", md: "space-between" }}
         align="center"
-        direction="row"
+        direction={{ base: "column", md: "row" }}
         wrap={{ base: "nowrap", md: "nowrap" }}
       >
         <div className={classes.left}>

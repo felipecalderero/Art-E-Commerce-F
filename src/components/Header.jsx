@@ -4,48 +4,48 @@ import {
   Avatar,
   UnstyledButton,
   Group,
-  Text,
   Tabs,
   Burger,
-  Popover,
   Drawer,
   ScrollArea,
+  Menu,
+  Indicator,
 } from "@mantine/core";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaRegUser } from "react-icons/fa6";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import classes from "../styles/Header.module.css";
 import logoImg from "../assets/images/artmarketlogo.png";
-import userImg from "../assets/images/user.png";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ColorScheme from "./ColorScheme";
 import Cart from "./Cart";
-
-const tabsList = ["Arts", "Artists"];
-const userList = [
-  {
-    tab: "My Profile",
-    link: `/users/${JSON.parse(localStorage.getItem("user"))?.userId}`,
-  },
-  {
-    tab: "Logout",
-    link: "/",
-  },
-];
+import { UserContext } from "../context/user.context";
 
 const Header = () => {
-  const [username, setUsername] = useState("");
   const navigate = useNavigate();
-  const [burgerOpened, burger] = useDisclosure(false);
-  const [userOpened, user] = useDisclosure(false);
-
+  // const [burgerOpened, burger] = useDisclosure(false);
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const [burgerMenuOpened, setBurgerMenuOpened] = useState(false);
   const [cartDrawerOpened, cartDrawer] = useDisclosure(false);
-
+  const { userDetails } = useContext(UserContext);
   const { width } = useViewportSize();
 
-  useEffect(() => {
-    setUsername(JSON.parse(localStorage.getItem("user")).userName);
-  }, []);
+  const tabsList = ["Arts", "Artists"];
+  let userList = [
+    {
+      key: "my_profile",
+      tab: "My Profile",
+      link: `/users/${JSON.parse(localStorage.getItem("user"))?.userId}`,
+    },
+    {
+      key: "logout",
+      tab: "Logout",
+      link: "/",
+    },
+  ];
+  if (userDetails.role === "buyer") {
+    userList = userList.filter((ele) => ele.key !== "my_profile");
+  }
 
   const tabItems = tabsList.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
@@ -54,37 +54,29 @@ const Header = () => {
   ));
 
   const navDropDownItems = tabsList.map((tab) => (
-    <Link
+    <Menu.Item
       key={tab}
-      to={`/${tab.toLowerCase()}`}
-      onClick={burger.toggle}
-      className={classes.link}
+      onClick={() => {
+        navigate(`/${tab.toLowerCase()}`);
+      }}
     >
-      <Text value={tab}>{tab}</Text>
-    </Link>
+      {tab}
+    </Menu.Item>
   ));
 
   const userDropDownItems = userList.map((item) => (
-    <Link
-      key={item.tab}
-      to={item.link}
+    <Menu.Item
+      key={item.key}
       onClick={() => {
-        if (item.tab === "Logout") {
+        if (item.key === "logout") {
           localStorage.removeItem("user");
         }
-        user.toggle();
+        navigate(item.link);
       }}
-      className={classes.link}
     >
-      <Text value={item.tab}>{item.tab}</Text>
-    </Link>
+      {item.tab}
+    </Menu.Item>
   ));
-
-  // Function to navigate to Cart page with the user ID
-  const handleCartClick = () => {
-    cartDrawer.open();
-    // navigate(`/cart/${JSON.parse(localStorage.getItem("user")).userId}`);
-  };
 
   return (
     <>
@@ -93,32 +85,39 @@ const Header = () => {
           <Group justify="space-between">
             <Burger
               color={"#ffebb2"}
-              opened={burgerOpened}
-              onClick={burger.toggle}
+              opened={burgerMenuOpened}
+              onClick={() => setBurgerMenuOpened(true)}
               hiddenFrom="xs"
               size="sm"
             />
-            <Avatar src={logoImg} alt={"App Logo"} radius="xs" size={60} />
+            <Avatar
+              src={logoImg}
+              alt={"App Logo"}
+              radius="xs"
+              size={60}
+              onClick={() => navigate("/arts")}
+            />
 
-            <Popover
+            <Menu
               width={width}
               offset={30}
-              opened={burgerOpened}
+              opened={burgerMenuOpened}
+              onChange={setBurgerMenuOpened}
               position="bottom-end"
               transitionProps={{ transition: "pop-top-right" }}
-              onClose={() => burger.toggle}
-              onOpen={() => burger.toggle}
+              shadow="md"
+              withArrow
               withinPortal
             >
-              <Popover.Target>
+              <Menu.Target>
                 <UnstyledButton
                   className={cx(classes.user, {
-                    [classes.userActive]: burgerOpened,
+                    [classes.userActive]: burgerMenuOpened,
                   })}
                 ></UnstyledButton>
-              </Popover.Target>
-              <Popover.Dropdown> {navDropDownItems} </Popover.Dropdown>
-            </Popover>
+              </Menu.Target>
+              <Menu.Dropdown> {navDropDownItems} </Menu.Dropdown>
+            </Menu>
             <Container size="md">
               <Tabs
                 color="#ffebb2"
@@ -134,33 +133,33 @@ const Header = () => {
                 <Tabs.List>{tabItems}</Tabs.List>
               </Tabs>
             </Container>
-            <Group gap={{ base: "sm", sm: "md", lg: "lg" }}>
-              <FaCartShopping onClick={handleCartClick} />
-              <Popover
+            <Group gap={{ base: "sm", sm: "md", lg: "xl" }}>
+              <Indicator
+                inline
+                label={userDetails.cart?.length}
+                size={16}
+                color="light-dark(#8644a2, #d0464f)"
+              >
+                <FaCartShopping size={30} onClick={cartDrawer.open} />
+              </Indicator>
+              <Menu
                 width={200}
                 position="bottom"
                 withArrow
                 shadow="md"
-                offset={10}
-                opened={userOpened}
+                opened={userMenuOpened}
+                onChange={setUserMenuOpened}
                 transitionProps={{ transition: "pop-top-right" }}
-                onClose={() => user.toggle}
-                onOpen={() => user.toggle}
                 withinPortal
+                trigger="click-hover"
               >
-                <Popover.Target>
-                  <Avatar
-                    onMouseEnter={user.open}
-                    src={userImg}
-                    alt={username}
-                    radius="xl"
-                    size={30}
-                    className={classes.avatar}
-                    onClick={user.toggle}
-                  />
-                </Popover.Target>
-                <Popover.Dropdown> {userDropDownItems} </Popover.Dropdown>
-              </Popover>
+                <Menu.Target>
+                  <UnstyledButton className={classes.userIcon}>
+                    <FaRegUser size={25} />
+                  </UnstyledButton>
+                </Menu.Target>
+                <Menu.Dropdown> {userDropDownItems} </Menu.Dropdown>
+              </Menu>
               <ColorScheme />
             </Group>
           </Group>

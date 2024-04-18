@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
 import { Button, Timeline, Text, Title } from "@mantine/core";
 import { UserContext } from "../context/user.context";
+import { BreadcrumbContext } from "../context/breadcrumb.context";
 
 const Checkout = () => {
   const { userId } = useParams();
@@ -12,9 +13,9 @@ const Checkout = () => {
   const [fetching, setFetching] = useState(true);
   const navigate = useNavigate();
   const { updateUserDetails } = useContext(UserContext);
+  const { setItemList } = useContext(BreadcrumbContext);
 
   const getCart = () => {
-    console.log("userId", userId);
     axios
       .get(`${import.meta.env.VITE_API_URL}/users/${userId}`)
       .then((response) => {
@@ -46,6 +47,7 @@ const Checkout = () => {
 
   useEffect(() => {
     getCart();
+    setItemList([{}]);
   }, [userId]); // React to changes in userId if it can change during component's lifecycle
 
   function handleDelete(artId) {

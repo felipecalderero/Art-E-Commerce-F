@@ -60,7 +60,7 @@
   }
 
   &:hover {
-    background-color: #8acdd7;
+    background-color: light-dark(#8644a2, #e6757d);
   }
 
   /* &[data-active] {

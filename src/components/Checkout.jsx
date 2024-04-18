@@ -65,11 +65,12 @@ const Checkout = () => {
   return (
     <div className={classes.root}>
       <div className={classes.cartList}>
-        <Title order={1}>Your Order:</Title>
+        <Title className={classes.title} order={1}>
+          Your Order:
+        </Title>
         <Text
+          c="light-dark(#e6757d, #8644a2)"
           onClick={() => navigate("/arts")}
-          variant="gradient"
-          gradient={{ from: "pink", to: "yellow" }}
         >
           Back to shopping
         </Text>
@@ -81,7 +82,12 @@ const Checkout = () => {
           ))
         )}
         <div className={classes.totalCtn}>
-          <Button variant="filled" color="gray" size="md" radius="xl">
+          <Button
+            variant="filled"
+            color="light-dark(#e6757d, #8644a2)"
+            size="md"
+            radius="xl"
+          >
             Delivery
           </Button>
           <div className={classes.textCtn}>
@@ -99,7 +105,12 @@ const Checkout = () => {
       </div>
 
       <div className={classes.timeline}>
-        <Timeline color="gray" active={1} bulletSize={25} lineWidth={4}>
+        <Timeline
+          color="light-dark(#e6757d, #8644a2)"
+          active={1}
+          bulletSize={25}
+          lineWidth={4}
+        >
           <Timeline.Item title="Add to Cart">
             <Text c="dimmed" size="sm">
               Chose the art you want

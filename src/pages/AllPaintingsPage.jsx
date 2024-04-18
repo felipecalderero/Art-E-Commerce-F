@@ -59,6 +59,12 @@ const AllPaintingsPage = () => {
     <>
       <Container h={rem(50)} mt={rem(40)} mb={rem(40)}>
         <TextInput
+          styles={{
+            input: {
+              backgroundColor: "white", // Set background color to white
+            },
+          }}
+          variant="filled"
           radius="xl"
           placeholder="Search..."
           value={searchTerm}

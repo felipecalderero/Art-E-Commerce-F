@@ -12,20 +12,23 @@ function AppBreadcrumbs() {
           href={currentItem.url}
           key={index}
           underline="never"
-          variant="gradient"
-          gradient={{ from: "pink", to: "yellow" }}
+          c="light-dark(#e6757d, #8644a2)"
         >
           {currentItem.title}
         </Anchor>
       );
     } else {
-      return <Text key={index}>{currentItem.title}</Text>;
+      return (
+        <Text c="light-dark(#8644a2, #ffebb2 )" key={index}>
+          {currentItem.title}
+        </Text>
+      );
     }
   });
   return (
     <Container size="lg" className={classes.container} mt={rem(20)}>
       <Breadcrumbs
-        separator={<IconChevronsRight />}
+        separator={<IconChevronsRight color="light-dark(#e6757d, #8644a2)" />}
         separatorMargin="xs"
         mt="xs"
       >

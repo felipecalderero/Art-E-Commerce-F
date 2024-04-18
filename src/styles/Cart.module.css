@@ -20,3 +20,11 @@
   margin: 8rem 1rem 0rem 4rem;
   padding-right: 8rem;
 }
+
+.title {
+  color: light-dark(#e6757d, #8644a2);
+}
+
+.root {
+  margin: 4rem;
+}

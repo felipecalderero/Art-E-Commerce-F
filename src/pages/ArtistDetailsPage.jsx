@@ -244,7 +244,14 @@ const ArtistDetailsPage = () => {
                 openUpdateArtModal={openUpdateArtModal}
               ></ArtsGrid>
             ) : (
-              <Title order={6} ta="center" h={rem(50)} mt="lg" fw="500">
+              <Title
+                className={classes.title}
+                order={5}
+                ta="center"
+                h={rem(50)}
+                mt="lg"
+                fw="500"
+              >
                 No Art
               </Title>
             )}

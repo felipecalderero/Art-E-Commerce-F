@@ -10,7 +10,7 @@ const ArtistsGrid = ({ list }) => {
     <Grid
       overflow="hidden"
       justify="center"
-      gutter={{ base: 10, xs: "md", md: "xl", xl: 30 }}
+      gutter={{ base: 10, xs: "sm", md: "md", xl: "xl" }}
       className={classes.gridContainer}
     >
       {list.map((currentUser) => {
@@ -20,13 +20,18 @@ const ArtistsGrid = ({ list }) => {
             span={{ base: 12, sm: 6, md: 4, lg: 3 }}
           >
             <Paper
-              p={{ base: "sm", sm: "md", md: "lg", lg: "xl" }}
-              h={{ base: 450, md: 400 }}
+              style={{
+                backgroundColor: "light-dark(#fff8e5,#515151)",
+              }}
+              shadow="md"
+              radius="xl"
+              p={{ base: "sm", sm: "md", md: "md", lg: "lg" }}
+              h={{ base: 300, md: 400 }}
               className={classes.card}
             >
               <div className={classes.cardImageContainer}>
                 <Image
-                  radius="40%"
+                  radius="6%"
                   src={
                     currentUser.photo
                       ? currentUser.photo

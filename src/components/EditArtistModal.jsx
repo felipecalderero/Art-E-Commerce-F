@@ -71,6 +71,8 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
   return (
     <Stack gap={15}>
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Name"
         placeholder="Your name"
         required
@@ -79,13 +81,17 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         error={errors.name}
       />
       <Textarea
-        label="Discription"
+        variant="filled"
+        radius="xl"
+        label="Description"
         placeholder="Write about your self..."
         value={description}
         rows={4}
         onChange={(event) => setDescription(event.currentTarget.value)}
       />
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Email"
         placeholder="example@domain.com"
         required
@@ -94,6 +100,8 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         error={errors.email}
       />
       <PasswordInput
+        variant="filled"
+        radius="xl"
         label="Password"
         placeholder="Your password"
         required
@@ -102,6 +110,8 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         error={errors.password}
       />
       <Select
+        variant="filled"
+        radius="xl"
         label="Gender"
         placeholder="Gender"
         data={["Female", "Male"]}
@@ -109,6 +119,8 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         onChange={setGender}
       />
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Photo"
         placeholder="Your Image URL"
         value={photo}
@@ -119,10 +131,11 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
       <Image radius="xl" src={photo} h="25rem" mt="xl" />
 
       <Button
+        radius="xl"
         fullWidth
         mt="xl"
-        variant="outline"
-        color="light-dark(black, orange)"
+        variant="filled"
+        color="light-dark(#e6757d, #8644a2)"
         onClick={handleSubmit}
       >
         Update Information

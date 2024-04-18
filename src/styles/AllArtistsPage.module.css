@@ -1,12 +1,11 @@
 .background {
-  height: 100vh;
-  width: 100vw;
+  margin-top: 3rem;
   align-content: center;
-  background-color: #ffebb2;
+  background-color: light-dark(#ffebb2, black);
 }
 
 .title {
   font-family: Greycliff CF, var(--mantine-font-family);
   font-weight: 900;
-  color: #e6757d;
+  color: light-dark(#e6757d, #ffebb2);
 }

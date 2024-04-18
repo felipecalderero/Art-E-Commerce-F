@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
-import classes from "../styles/Cart.module.css";
+import classes from "../styles/Checkout.module.css";
 import { Button, Timeline, Text, Title } from "@mantine/core";
 import { UserContext } from "../context/user.context";
 

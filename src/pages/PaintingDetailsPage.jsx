@@ -108,27 +108,34 @@ const PaintingDetailsPage = () => {
             <Stack gap={rem(30)} w={{ base: rem(270), md: rem(600) }}>
               <Stack gap={rem(20)}>
                 <div>
-                  <Title order={3} tt="uppercase">
+                  <Title order={3} tt="uppercase" className={classes.title}>
                     {art.title}
                   </Title>
-                  <Text size="md" fw={500} fs="italic">
+                  <Text
+                    size="md"
+                    fw={500}
+                    fs="italic"
+                    c="light-dark(#e6757d, #ffebb2)"
+                  >
                     by {art.artist}
                   </Text>
                 </div>
-                <Text size="md">{art.description}</Text>
+                <Text size="md" c="light-dark(#e6757d, #ffebb2)">
+                  {art.description}
+                </Text>
               </Stack>
               <Flex
                 justify="space-between"
                 wrap={{ base: "wrap", md: "nowrap" }}
               >
                 <Stack gap={rem(10)}>
-                  <Text size="sm">
+                  <Text size="sm" c="light-dark(#e6757d, #ffebb2)">
                     <strong>Category:</strong> {art.category}
                   </Text>
-                  <Text size="sm">
+                  <Text size="sm" c="light-dark(#e6757d, #ffebb2)">
                     <strong>Size:</strong> {art.size}cm
                   </Text>
-                  <Text size="sm">
+                  <Text size="sm" c="light-dark(#e6757d, #ffebb2)">
                     <strong>Year:</strong> {art.date ? art.date : " - "}
                   </Text>
                 </Stack>
@@ -167,8 +174,9 @@ const PaintingDetailsPage = () => {
                   </Text>
                   {userDetails.id !== art.userId && (
                     <Button
-                      variant="outline"
-                      color="black"
+                      radius="xl"
+                      variant="filled"
+                      color="light-dark(#e6757d, #8644a2)"
                       onClick={handleCartButtonClick}
                     >
                       {inUserCart ? "Remove from Cart" : "Add to Cart"}

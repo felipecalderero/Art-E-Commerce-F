@@ -232,7 +232,7 @@ const ArtistDetailsPage = () => {
 
           {/* Artist's Arts display */}
           <>
-            <Title order={2} ta="center">
+            <Title order={2} ta="center" className={classes.title}>
               All Artworks by {artist.name}
             </Title>
             {artist.arts?.length ? (
@@ -252,14 +252,16 @@ const ArtistDetailsPage = () => {
             {isArtistLoggedIn && (
               <Group justify="center" m="lg">
                 <Button
-                  variant="outline"
-                  color="light-dark(black, orange)"
+                  size="lg"
+                  variant="filled"
+                  radius="xl"
+                  color="light-dark(#e6757d, #8644a2)"
                   onClick={() => {
                     setIsNewArt(true);
                     addEditArtModal.open();
                   }}
                 >
-                  Add Art
+                  <span className={classes.textButton}>Add Art</span>
                 </Button>
               </Group>
             )}
@@ -271,9 +273,11 @@ const ArtistDetailsPage = () => {
 
       {/* Update artist modal */}
       <Modal
+        padding="lg"
+        radius="xl"
         opened={editPersonalInfoModal.opened}
         onClose={editPersonalInfoModal.close}
-        size="auto"
+        size="lg"
         title="Personal Information"
         overlayProps={{
           backgroundOpacity: 0.55,
@@ -289,6 +293,9 @@ const ArtistDetailsPage = () => {
 
       {/* Delete art modal */}
       <Modal
+        padding="xl"
+        radius="xl"
+        size="lg"
         opened={deleteArtModal.opened}
         onClose={deleteArtModal.close}
         title="Confirm Deletion"
@@ -306,6 +313,9 @@ const ArtistDetailsPage = () => {
 
       {/* Update art modal */}
       <Modal
+        padding="lg"
+        size="lg"
+        radius="xl"
         opened={addEditArtModal.opened}
         onClose={() => {
           closeAddEditArtModal();

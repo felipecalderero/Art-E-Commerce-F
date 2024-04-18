@@ -59,6 +59,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
   return (
     <Stack gap={15}>
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Title"
         placeholder="Title"
         required
@@ -67,6 +69,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         error={errors.title}
       />
       <Textarea
+        variant="filled"
+        radius="xl"
         label="Discription"
         placeholder="Write about your art..."
         value={description}
@@ -74,6 +78,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         onChange={(event) => setDescription(event.currentTarget.value)}
       />
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Category"
         placeholder="Category"
         required
@@ -82,6 +88,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         error={errors.category}
       />
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Size"
         placeholder="Size"
         required
@@ -90,6 +98,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         error={errors.size}
       />
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Year"
         placeholder="Year"
         value={date}
@@ -97,6 +107,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         error={errors.year}
       />
       <NumberInput
+        variant="filled"
+        radius="xl"
         label="Price (in Euro)"
         placeholder="Price"
         required
@@ -105,6 +117,8 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
         error={errors.price}
       />
       <TextInput
+        variant="filled"
+        radius="xl"
         label="Image"
         placeholder="Your art URL"
         required
@@ -122,11 +136,12 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
       />
 
       <Button
+        radius="xl"
         fullWidth
         mt="xl"
+        variant="filled"
+        color="light-dark(#e6757d, #8644a2)"
         onClick={handleSubmit}
-        variant="outline"
-        color="light-dark(black, orange)"
       >
         {isNewArt ? "Add Art" : "Update Art"}
       </Button>

@@ -9,7 +9,6 @@ import {
   Container,
   Group,
   Button,
-  BackgroundImage,
 } from "@mantine/core";
 import classes from "../styles/AuthenticationTitle.module.css";
 import { useEffect, useState } from "react";
@@ -101,6 +100,7 @@ export function AuthenticationTitle() {
 
           <Paper shadow="md" p={30} mt={30} radius="xl">
             <TextInput
+              variant="filled"
               radius="xl"
               label="Email"
               placeholder="your@email.com"
@@ -110,6 +110,7 @@ export function AuthenticationTitle() {
               error={errorEmail}
             />
             <PasswordInput
+              variant="filled"
               radius="xl"
               label="Password"
               placeholder="Your password"

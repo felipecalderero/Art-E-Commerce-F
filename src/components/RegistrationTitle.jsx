@@ -83,6 +83,12 @@ export function RegistrationTitle() {
         </Title>
         <Paper shadow="md" p={30} mt={30} radius="xl">
           <TextInput
+            styles={{
+              input: {
+                backgroundColor: "#e7f0fe", // Set background color to white
+              },
+            }}
+            variant="filled"
             radius="xl"
             label="Name"
             placeholder="Your name"
@@ -92,6 +98,7 @@ export function RegistrationTitle() {
             error={errors.name}
           />
           <TextInput
+            variant="filled"
             radius="xl"
             label="Email"
             placeholder="example@domain.com"
@@ -101,6 +108,7 @@ export function RegistrationTitle() {
             error={errors.email}
           />
           <PasswordInput
+            variant="filled"
             radius="xl"
             label="Password"
             placeholder="Your password"

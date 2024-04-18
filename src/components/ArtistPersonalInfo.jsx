@@ -19,13 +19,13 @@ const ArtistPersonalInfo = ({
   editPersonalInfoModal,
 }) => {
   return (
-    <>
+    <div className="container">
       <Flex
         gap={{ base: "30", md: rem(100) }}
         justify={{ base: "space-around", md: "space-between" }}
         align="center"
         direction="row"
-        wrap={{ base: "wrap", md: "nowrap" }}
+        wrap={{ base: "nowrap", md: "nowrap" }}
       >
         <div className={classes.left}>
           <Image
@@ -42,7 +42,7 @@ const ArtistPersonalInfo = ({
         </div>
         <Stack gap={rem(30)} w={{ base: rem(270), md: rem(600) }}>
           <Group justify="space-between">
-            <Title order={3} tt="uppercase">
+            <Title order={2} tt="uppercase">
               {artistDetails.name}
             </Title>
             {isArtistLoggedIn && (
@@ -53,12 +53,12 @@ const ArtistPersonalInfo = ({
                 color="light-dark(black, orange)"
                 onClick={editPersonalInfoModal}
               >
-                <IconEdit />
+                <IconEdit style={{ color: "light-dark(#e6757d, #ffebb2)" }} />
               </Button>
             )}
           </Group>
 
-          <Text>{artistDetails.description}</Text>
+          <Text size="lg">{artistDetails.description}</Text>
           <Flex justify="space-between" wrap={{ base: "wrap", md: "nowrap" }}>
             <Stack gap={rem(10)}>
               <Text size="sm">
@@ -78,7 +78,7 @@ const ArtistPersonalInfo = ({
           </Flex>
         </Stack>
       </Flex>
-    </>
+    </div>
   );
 };
 

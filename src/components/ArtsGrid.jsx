@@ -104,7 +104,7 @@ const ArtsGrid = ({
                       w={30}
                       p={0}
                       variant="subtle"
-                      color="light-dark(black, orange)"
+                      color="light-dark(black, white)"
                       onClick={() => openUpdateArtModal(currentItem)}
                     >
                       <IconPencil />
@@ -113,7 +113,7 @@ const ArtsGrid = ({
                       w={30}
                       p={0}
                       variant="subtle"
-                      color="light-dark(black, orange)"
+                      color="light-dark(black, white)"
                       onClick={() =>
                         confirmDelete(currentItem.id, currentItem.inCart)
                       }
@@ -127,9 +127,10 @@ const ArtsGrid = ({
                 <Text>{currentItem.price}€</Text>
                 {!isUserArt && (
                   <Button
-                    variant="outline"
+                    variant="filled"
+                    radius="xl"
+                    color="light-dark(#e6757d, #8644a2)"
                     size="xs"
-                    color="light-dark(rgba(26, 25, 25, 1), orange)"
                     px="xs"
                     fz="xs"
                     className={classes.btn}

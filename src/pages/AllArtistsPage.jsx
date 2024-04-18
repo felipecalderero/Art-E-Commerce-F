@@ -5,6 +5,7 @@ import ArtistsGrid from "../components/ArtistsGrid";
 import { Title } from "@mantine/core";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
 import { UserContext } from "../context/user.context";
+import classes from "../styles/AllArtistsPage.module.css";
 
 const AllArtistsPage = () => {
   const [artists, setArtists] = useState([]);
@@ -27,12 +28,12 @@ const AllArtistsPage = () => {
   }, []);
 
   return (
-    <>
-      <Title order={2} ta="center" mt={50}>
-        MEET OUR ARTISTS
+    <div className={classes.background}>
+      <Title ta="center" className={classes.title}>
+        Meet Our Artists{" "}
       </Title>
       <ArtistsGrid list={artists}></ArtistsGrid>
-    </>
+    </div>
   );
 };
 

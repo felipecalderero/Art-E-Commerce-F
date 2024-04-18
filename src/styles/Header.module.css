@@ -1,6 +1,6 @@
 .header {
-  background-color: #e6757d;
-  border-bottom: 0px solid #e6757d; /* Set the border */
+  margin: 0;
+  background-color: light-dark(#e6757d, #8644a2);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   position: sticky;
   top: 0;
@@ -9,6 +9,7 @@
 }
 
 .mainSection {
+  margin: 0;
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -29,7 +30,7 @@
 }
 
 .userActive {
-  background-color: #e6757d;
+  background-color: light-dark(#e6757d, #8644a2);
 }
 
 .link {

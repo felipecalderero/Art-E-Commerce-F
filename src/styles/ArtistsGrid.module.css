@@ -3,11 +3,12 @@
 }
 
 .card {
-  color: light-dark(black, white);
+  color: light-dark(#e6757d, #fff2ce);
 }
 
 .cardImageContainer {
   height: 75%;
+  width: auto;
   position: relative;
 }
 

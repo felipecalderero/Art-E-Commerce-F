@@ -9,10 +9,11 @@ const DeleteArtModal = ({ canDeleteArt, deleteArt, deleteArtModal }) => {
           : "You can not delete this art. People have added to the cart"}
       </Text>
       <Button
+        radius="xl"
         fullWidth
         mt="xl"
-        variant="outline"
-        color="light-dark(black, orange)"
+        variant="filled"
+        color="light-dark(#e6757d, #8644a2)"
         onClick={canDeleteArt ? deleteArt : deleteArtModal}
       >
         {canDeleteArt ? "Delete" : "Ok"}

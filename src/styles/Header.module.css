@@ -23,10 +23,6 @@
   &:hover {
     background-color: #ffebb2;
   }
-
-  /* @media (max-width: $mantine-breakpoint-xs) {
-    display: none;
-  } */
 }
 
 .userActive {
@@ -62,16 +58,9 @@
   &:hover {
     background-color: light-dark(#8644a2, #e6757d);
   }
+}
 
-  /* &[data-active] {
-    background-color: light-dark(
-      var(--mantine-color-white),
-      var(--mantine-color-dark-7)
-    );
-    border-color: light-dark(
-      var(--mantine-color-gray-2),
-      var(--mantine-color-dark-7)
-    );
-    border-bottom-color: transparent; 
-  }*/
+.userIcon {
+  display: flex;
+  align-items: center;
 }

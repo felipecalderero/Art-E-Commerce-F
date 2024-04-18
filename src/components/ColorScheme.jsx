@@ -1,9 +1,9 @@
 import {
   useMantineColorScheme,
   useComputedColorScheme,
-  Button,
+  UnstyledButton,
 } from "@mantine/core";
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 
 const ColorScheme = () => {
   const { setColorScheme } = useMantineColorScheme();
@@ -12,20 +12,18 @@ const ColorScheme = () => {
   });
 
   return (
-    <Button
-      variant="default"
-      w={50}
-      p={3}
+    <UnstyledButton
       onClick={() =>
         setColorScheme(computedColorScheme === "light" ? "dark" : "light")
       }
+      style={{ display: "flex", alignItems: "center" }}
     >
       {computedColorScheme === "light" ? (
-        <IconMoon stroke={2} />
+        <MdOutlineDarkMode size={30} />
       ) : (
-        <IconSun stroke={2} />
+        <MdOutlineLightMode size={30} />
       )}
-    </Button>
+    </UnstyledButton>
   );
 };
 

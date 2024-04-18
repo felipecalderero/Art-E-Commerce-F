@@ -79,7 +79,6 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
       userId: artDetail.userId,
       inCart: artDetail.inCart,
     };
-    console.log("check me", payload);
     addUpdateArt(payload);
   };
   return (

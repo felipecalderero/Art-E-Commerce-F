@@ -4,61 +4,79 @@ import {
   Avatar,
   UnstyledButton,
   Group,
-  Text,
   Tabs,
   Burger,
-  Popover,
-  Tooltip,
   Drawer,
   ScrollArea,
+  Menu,
+  Indicator,
 } from "@mantine/core";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaRegUser } from "react-icons/fa6";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import classes from "../styles/Header.module.css";
 import logoImg from "../assets/images/artmarketlogo.png";
-import userImg from "../assets/images/user.png";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ColorScheme from "./ColorScheme";
-import Logout from "./Logout";
 import Cart from "./Cart";
-
-const tabs = ["Arts", "Artists"];
+import { UserContext } from "../context/user.context";
 
 const Header = () => {
-  const [username, setUsername] = useState("");
   const navigate = useNavigate();
-  const [burgerOpened, burger] = useDisclosure(false);
+  // const [burgerOpened, burger] = useDisclosure(false);
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const [burgerMenuOpened, setBurgerMenuOpened] = useState(false);
   const [cartDrawerOpened, cartDrawer] = useDisclosure(false);
-
+  const { userDetails } = useContext(UserContext);
   const { width } = useViewportSize();
 
-  useEffect(() => {
-    setUsername(JSON.parse(localStorage.getItem("user")).userName);
-  }, []);
+  const tabsList = ["Arts", "Artists"];
+  let userList = [
+    {
+      key: "my_profile",
+      tab: "My Profile",
+      link: `/users/${JSON.parse(localStorage.getItem("user"))?.userId}`,
+    },
+    {
+      key: "logout",
+      tab: "Logout",
+      link: "/",
+    },
+  ];
+  if (userDetails.role === "buyer") {
+    userList = userList.filter((ele) => ele.key !== "my_profile");
+  }
 
-  const tabItems = tabs.map((tab) => (
+  const tabItems = tabsList.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
       {tab}
     </Tabs.Tab>
   ));
 
-  const dropDownItems = tabs.map((tab) => (
-    <Link
+  const navDropDownItems = tabsList.map((tab) => (
+    <Menu.Item
       key={tab}
-      to={`/${tab.toLocaleLowerCase()}`}
-      onClick={burger.toggle}
-      className={classes.link}
+      onClick={() => {
+        navigate(`/${tab.toLowerCase()}`);
+      }}
     >
-      <Text value={tab}>{tab}</Text>
-    </Link>
+      {tab}
+    </Menu.Item>
   ));
 
-  // Function to navigate to Cart page with the user ID
-  const handleCartClick = () => {
-    cartDrawer.open();
-    // navigate(`/cart/${JSON.parse(localStorage.getItem("user")).userId}`);
-  };
+  const userDropDownItems = userList.map((item) => (
+    <Menu.Item
+      key={item.key}
+      onClick={() => {
+        if (item.key === "logout") {
+          localStorage.removeItem("user");
+        }
+        navigate(item.link);
+      }}
+    >
+      {item.tab}
+    </Menu.Item>
+  ));
 
   return (
     <>
@@ -67,32 +85,39 @@ const Header = () => {
           <Group justify="space-between">
             <Burger
               color={"#ffebb2"}
-              opened={burgerOpened}
-              onClick={burger.toggle}
+              opened={burgerMenuOpened}
+              onClick={() => setBurgerMenuOpened(true)}
               hiddenFrom="xs"
               size="sm"
             />
-            <Avatar src={logoImg} alt={"App Logo"} radius="xs" size={60} />
+            <Avatar
+              src={logoImg}
+              alt={"App Logo"}
+              radius="xs"
+              size={60}
+              onClick={() => navigate("/arts")}
+            />
 
-            <Popover
+            <Menu
               width={width}
               offset={30}
-              opened={burgerOpened}
+              opened={burgerMenuOpened}
+              onChange={setBurgerMenuOpened}
               position="bottom-end"
               transitionProps={{ transition: "pop-top-right" }}
-              onClose={() => burger.toggle}
-              onOpen={() => burger.toggle}
+              shadow="md"
+              withArrow
               withinPortal
             >
-              <Popover.Target>
+              <Menu.Target>
                 <UnstyledButton
                   className={cx(classes.user, {
-                    [classes.userActive]: burgerOpened,
+                    [classes.userActive]: burgerMenuOpened,
                   })}
                 ></UnstyledButton>
-              </Popover.Target>
-              <Popover.Dropdown> {dropDownItems} </Popover.Dropdown>
-            </Popover>
+              </Menu.Target>
+              <Menu.Dropdown> {navDropDownItems} </Menu.Dropdown>
+            </Menu>
             <Container size="md">
               <Tabs
                 color="#ffebb2"
@@ -108,19 +133,34 @@ const Header = () => {
                 <Tabs.List>{tabItems}</Tabs.List>
               </Tabs>
             </Container>
-            <Group gap={{ base: "sm", sm: "md", lg: "lg" }}>
-              <FaCartShopping onClick={handleCartClick} />
-              <Tooltip label={username}>
-                <Avatar
-                  src={userImg}
-                  alt={username}
-                  radius="xl"
-                  size={30}
-                  className={classes.avatar}
-                />
-              </Tooltip>
+            <Group gap={{ base: "sm", sm: "md", lg: "xl" }}>
+              <Indicator
+                inline
+                label={userDetails.cart?.length}
+                size={16}
+                color="light-dark(#8644a2, #d0464f)"
+              >
+                <FaCartShopping size={30} onClick={cartDrawer.open} />
+              </Indicator>
+              <Menu
+                width={200}
+                position="bottom"
+                withArrow
+                shadow="md"
+                opened={userMenuOpened}
+                onChange={setUserMenuOpened}
+                transitionProps={{ transition: "pop-top-right" }}
+                withinPortal
+                trigger="click-hover"
+              >
+                <Menu.Target>
+                  <UnstyledButton className={classes.userIcon}>
+                    <FaRegUser size={25} />
+                  </UnstyledButton>
+                </Menu.Target>
+                <Menu.Dropdown> {userDropDownItems} </Menu.Dropdown>
+              </Menu>
               <ColorScheme />
-              <Logout />
             </Group>
           </Group>
         </Container>

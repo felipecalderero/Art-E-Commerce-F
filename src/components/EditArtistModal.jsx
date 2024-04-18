@@ -21,20 +21,24 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
   const [photo, setPhoto] = useState(
     artistDetails.photo ? artistDetails.photo : no_photo
   );
-  // const [role, setRole] = useState("buyer");
 
   const [errors, setErrors] = useState({
     name: "",
     email: "",
     password: "",
     photo: "",
-    // role: "",
   });
 
   // Function to validate email format
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  // Function to validate link format
+  const isValidLink = (link) => {
+    const linkRegex = /http[s]?:\/\/[^\s/$.?#].[^\s]*/;
+    return linkRegex.test(link);
   };
 
   // Function to handle form submission
@@ -48,8 +52,7 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
     else if (!isValidEmail(email))
       validationErrors.email = "Invalid email format";
     if (!password) validationErrors.password = "Password is required";
-    // if (!role) validationErrors.role = "Please select your role";
-
+    if (photo && !isValidLink(photo)) validationErrors.photo = "Invalid URL";
     setErrors(validationErrors);
 
     // Check if there are any errors
@@ -62,7 +65,6 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
       password,
       gender,
       photo,
-      // role,
     };
     updateArtistPersonalInfo(payload);
   };
@@ -107,16 +109,6 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         onChange={(event) => setPassword(event.currentTarget.value)}
         error={errors.password}
       />
-      {/* <RadioGroup
-          label="Role"
-          required
-          value={role}
-          onChange={setRole}
-          error={errors.role}
-        >
-          <Radio value="buyer" label="Buyer Only" />
-          <Radio value="artist" label="Artist" />
-        </RadioGroup> */}
       <Select
         variant="filled"
         radius="xl"

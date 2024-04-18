@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CartItem from "./CartItem";
 import classes from "../styles/Cart.module.css";
-import { Button } from "@mantine/core";
+import { Button, Text, Title } from "@mantine/core";
+import { UserContext } from "../context/user.context";
 
-const Cart = () => {
-  const { userId } = useParams();
+const Cart = ({ closeDrawer }) => {
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
   const [cartDetails, setCartDetails] = useState([]);
   const [fetching, setFetching] = useState(true);
+  const { updateUserDetails } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const getCart = () => {
-    console.log(userId);
-
     axios
       .get(`${import.meta.env.VITE_API_URL}/users/${userId}`)
       .then((response) => {
@@ -58,55 +58,59 @@ const Cart = () => {
 
     const filteredCart = [];
     filteredCartDetails.map((currentArt) => filteredCart.push(currentArt.id));
-    console.log(filteredCart);
 
-    axios
-      .patch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
-        cart: filteredCart,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const payload = {
+      cart: filteredCart,
+    };
+    updateUserDetails(payload);
   }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.cartList}>
-        <h1>Your Cart:</h1>
-        <Link to="/arts">
-          <p>Continue shopping</p>
-        </Link>
-        {fetching ? (
-          <p>Loading cart...</p>
-        ) : (
-          cartDetails.map((art, index) => (
-            <CartItem key={index} art={art} handleDelete={handleDelete} />
-          ))
-        )}
-        <div className={classes.totalCtn}>
-          <Button
-            variant="filled"
-            color="gray"
-            size="md"
-            radius="xl"
-            onClick={() => navigate(`/checkout/${userId}`)}
-          >
-            Checkout
-          </Button>
-          <div className={classes.textCtn}>
-            <p>
-              Total:{" "}
-              <span className={classes.priceText}>
-                $
-                {cartDetails.reduce((acumulator, currentArt) => {
-                  return (acumulator += currentArt.price);
-                }, 0)}
-              </span>
-            </p>
-          </div>
+    <div className={classes.cartList}>
+      <Title order={1} mb="lg">
+        Your Cart
+      </Title>
+
+      <Text
+        onClick={closeDrawer}
+        variant="gradient"
+        gradient={{ from: "pink", to: "yellow" }}
+      >
+        Continue shopping
+      </Text>
+
+      {fetching ? (
+        <Title>Loading cart...</Title>
+      ) : (
+        cartDetails.map((art, index) => (
+          <CartItem key={index} art={art} handleDelete={handleDelete} />
+        ))
+      )}
+      <div className={classes.totalCtn}>
+        <Button
+          variant="filled"
+          color="gray"
+          size="md"
+          radius="xl"
+          onClick={() => {
+            closeDrawer();
+            navigate(`/checkout/${userId}`);
+          }}
+        >
+          Checkout
+        </Button>
+        <div className={classes.textCtn}>
+          <Text>
+            Total: €{" "}
+            <Text component="span" size="xl" fw={800}>
+              {cartDetails.reduce((acumulator, currentArt) => {
+                return (acumulator += currentArt.price);
+              }, 0)}
+            </Text>
+          </Text>
+          {/* <Title order={2} className={classes.priceText}>
+            
+          </Title> */}
         </div>
       </div>
     </div>

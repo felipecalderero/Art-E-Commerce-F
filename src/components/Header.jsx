@@ -8,7 +8,6 @@ import {
   Tabs,
   Burger,
   Popover,
-  Tooltip,
   Drawer,
   ScrollArea,
 } from "@mantine/core";
@@ -20,15 +19,26 @@ import userImg from "../assets/images/user.png";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ColorScheme from "./ColorScheme";
-import Logout from "./Logout";
 import Cart from "./Cart";
 
-const tabs = ["Arts", "Artists"];
+const tabsList = ["Arts", "Artists"];
+const userList = [
+  {
+    tab: "My Profile",
+    link: `/users/${JSON.parse(localStorage.getItem("user"))?.userId}`,
+  },
+  {
+    tab: "Logout",
+    link: "/",
+  },
+];
 
 const Header = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const [burgerOpened, burger] = useDisclosure(false);
+  const [userOpened, user] = useDisclosure(false);
+
   const [cartDrawerOpened, cartDrawer] = useDisclosure(false);
 
   const { width } = useViewportSize();
@@ -37,20 +47,36 @@ const Header = () => {
     setUsername(JSON.parse(localStorage.getItem("user")).userName);
   }, []);
 
-  const tabItems = tabs.map((tab) => (
+  const tabItems = tabsList.map((tab) => (
     <Tabs.Tab value={tab} key={tab}>
       {tab}
     </Tabs.Tab>
   ));
 
-  const dropDownItems = tabs.map((tab) => (
+  const navDropDownItems = tabsList.map((tab) => (
     <Link
       key={tab}
-      to={`/${tab.toLocaleLowerCase()}`}
+      to={`/${tab.toLowerCase()}`}
       onClick={burger.toggle}
       className={classes.link}
     >
       <Text value={tab}>{tab}</Text>
+    </Link>
+  ));
+
+  const userDropDownItems = userList.map((item) => (
+    <Link
+      key={item.tab}
+      to={item.link}
+      onClick={() => {
+        if (item.tab === "Logout") {
+          localStorage.removeItem("user");
+        }
+        user.toggle();
+      }}
+      className={classes.link}
+    >
+      <Text value={item.tab}>{item.tab}</Text>
     </Link>
   ));
 
@@ -91,7 +117,7 @@ const Header = () => {
                   })}
                 ></UnstyledButton>
               </Popover.Target>
-              <Popover.Dropdown> {dropDownItems} </Popover.Dropdown>
+              <Popover.Dropdown> {navDropDownItems} </Popover.Dropdown>
             </Popover>
             <Container size="md">
               <Tabs
@@ -110,17 +136,32 @@ const Header = () => {
             </Container>
             <Group gap={{ base: "sm", sm: "md", lg: "lg" }}>
               <FaCartShopping onClick={handleCartClick} />
-              <Tooltip label={username}>
-                <Avatar
-                  src={userImg}
-                  alt={username}
-                  radius="xl"
-                  size={30}
-                  className={classes.avatar}
-                />
-              </Tooltip>
+              <Popover
+                width={200}
+                position="bottom"
+                withArrow
+                shadow="md"
+                offset={10}
+                opened={userOpened}
+                transitionProps={{ transition: "pop-top-right" }}
+                onClose={() => user.toggle}
+                onOpen={() => user.toggle}
+                withinPortal
+              >
+                <Popover.Target>
+                  <Avatar
+                    onMouseEnter={user.open}
+                    src={userImg}
+                    alt={username}
+                    radius="xl"
+                    size={30}
+                    className={classes.avatar}
+                    onClick={user.toggle}
+                  />
+                </Popover.Target>
+                <Popover.Dropdown> {userDropDownItems} </Popover.Dropdown>
+              </Popover>
               <ColorScheme />
-              <Logout />
             </Group>
           </Group>
         </Container>

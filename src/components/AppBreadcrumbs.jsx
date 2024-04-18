@@ -1,4 +1,4 @@
-import { Anchor, Breadcrumbs, Container, Text } from "@mantine/core";
+import { Anchor, Breadcrumbs, Container, Text, rem } from "@mantine/core";
 import { IconChevronsRight } from "@tabler/icons-react";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
 import { useContext } from "react";
@@ -23,7 +23,7 @@ function AppBreadcrumbs() {
     }
   });
   return (
-    <Container size="xl" className={classes.container}>
+    <Container size="lg" className={classes.container} mt={rem(20)}>
       <Breadcrumbs
         separator={<IconChevronsRight />}
         separatorMargin="xs"

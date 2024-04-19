@@ -1,7 +1,12 @@
 import { AuthenticationTitle } from "../components/AuthenticationTitle";
 
 const LoginPage = () => {
-  return <AuthenticationTitle />;
+  return (
+    <div>
+      {" "}
+      <AuthenticationTitle />
+    </div>
+  );
 };
 
 export default LoginPage;

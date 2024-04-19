@@ -19,12 +19,7 @@ import ArtistDetailsPage from "./pages/ArtistDetailsPage.jsx";
 
 function App() {
   return (
-    <div
-      style={{
-        backgroundColor: "light-dark(#ffebb2, black)",
-        heigth: "100%",
-      }}
-    >
+    <div>
       <UserProviderWrapper>
         <BreadcrumbWrapper>
           <Layout>

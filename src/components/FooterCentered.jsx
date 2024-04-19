@@ -5,7 +5,7 @@ import {
   IconBrandInstagram,
 } from "@tabler/icons-react";
 import logo from "../assets/images/artmarketlogo.png";
-import { Image } from "@mantine/core";
+// import { Image } from "@mantine/core";
 import classes from "../styles/FooterCentered.module.css";
 
 const links = [

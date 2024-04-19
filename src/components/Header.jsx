@@ -139,6 +139,7 @@ const Header = () => {
                 label={userDetails.cart?.length}
                 size={16}
                 color="light-dark(#8644a2, #d0464f)"
+                style={{ display: "flex", alignItems: "center" }}
               >
                 <FaCartShopping size={30} onClick={cartDrawer.open} />
               </Indicator>

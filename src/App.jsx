@@ -8,20 +8,22 @@ import PaintingDetailsPage from "./pages/PaintingDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import UserProviderWrapper from "./context/user.context.jsx";
 import BreadcrumbWrapper from "./context/breadcrumb.context.jsx";
 import ArtistDetailsPage from "./pages/ArtistDetailsPage.jsx";
 
-//import Navbar from "/src/components/Navbar.jsx";
+//import CartPage from "./pages/CartPage";
 //import Footer from "/src/components/Footer.jsx";
 //import classes from "./styles/App.module.css";
 
 function App() {
   return (
     <div
-      style={{ backgroundColor: "light-dark(#ffebb2, black)", heigth: "100%" }}
+      style={{
+        backgroundColor: "light-dark(#ffebb2, black)",
+        heigth: "100%",
+      }}
     >
       <UserProviderWrapper>
         <BreadcrumbWrapper>
@@ -36,14 +38,13 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/arts/:artId" element={<PaintingDetailsPage />} />
               <Route path="/users/:userId" element={<ArtistDetailsPage />} />
-              <Route path="/cart/:userId" element={<CartPage />} />
+              {/* <Route path="/cart/:userId" element={<CartPage />} /> */}
               <Route path="/checkout/:userId" element={<CheckoutPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Layout>
         </BreadcrumbWrapper>
       </UserProviderWrapper>
-      {/* <Footer /> */}
     </div>
   );
 }

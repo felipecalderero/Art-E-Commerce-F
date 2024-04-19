@@ -58,8 +58,10 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
     if (!price) validationErrors.price = "Price is required";
     if (!artImage) validationErrors.artImage = "Art image is required";
     else if (!isValidLink(artImage)) validationErrors.image = "Invalid URL";
-
-    if (date.length && !isValidYear(date))
+    if (
+      (date.length && !isValidYear(date)) ||
+      parseInt(date) > new Date().getFullYear()
+    )
       validationErrors.year = "Enter valid year";
 
     setErrors(validationErrors);

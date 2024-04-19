@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import no_photo from "../assets/images/no_photo.png";
+import { SelectCreatable } from "./SelectCreatable";
 
 const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
   const [name, setName] = useState(artistDetails.name);
@@ -18,8 +19,9 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
   const [email, setEmail] = useState(artistDetails.email);
   const [password, setPassword] = useState(artistDetails.password);
   const [gender, setGender] = useState(artistDetails.gender);
+  const [nationality, setNationality] = useState(artistDetails.nationality);
   const [photo, setPhoto] = useState(
-    artistDetails.photo ? artistDetails.photo : no_photo
+    artistDetails.photo ? artistDetails.photo : ""
   );
 
   const [errors, setErrors] = useState({
@@ -65,6 +67,7 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
       password,
       gender,
       photo,
+      nationality,
     };
     updateArtistPersonalInfo(payload);
   };
@@ -109,6 +112,10 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         onChange={(event) => setPassword(event.currentTarget.value)}
         error={errors.password}
       />
+      <SelectCreatable
+        nationality={nationality ?? ""}
+        setNationality={setNationality}
+      />
       <Select
         variant="filled"
         radius="xl"
@@ -128,7 +135,7 @@ const EditArtistModal = ({ artistDetails, updateArtistPersonalInfo }) => {
         error={errors.photo}
       />
 
-      <Image radius="xl" src={photo} h="25rem" mt="xl" />
+      <Image radius="xl" src={photo ? photo : no_photo} h="25rem" mt="xl" />
 
       <Button
         radius="xl"

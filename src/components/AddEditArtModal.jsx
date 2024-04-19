@@ -98,7 +98,7 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
       <Textarea
         variant="filled"
         radius="xl"
-        label="Discription"
+        label="Description"
         placeholder="Write about your art..."
         value={description}
         rows={4}

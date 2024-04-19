@@ -74,9 +74,9 @@ export function AuthenticationTitle() {
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Login Submitted");
-    console.log("email:", email);
-    console.log("Password:", password);
+    //console.log("Login Submitted");
+    //console.log("email:", email);
+    //console.log("Password:", password);
 
     if (!isValidEmail(email)) {
       setErrorEmail("Please enter a valid email address.");

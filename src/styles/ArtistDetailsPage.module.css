@@ -29,8 +29,8 @@
 }
 
 .background {
-  margin-top: 3rem;
   align-content: center;
   background-color: light-dark(#ffebb2, black);
   min-height: 100vh;
+  padding-bottom: 3rem;
 }

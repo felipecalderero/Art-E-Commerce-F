@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
   const shouldDisplayNavbar = ignoreRoute.indexOf(location.pathname) < 0;
 
   return (
-    <div>
+    <>
       {shouldDisplayNavbar && (
         <>
           <Header />
@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
       )}
       {children}
       <FooterCentered />
-    </div>
+    </>
   );
 };
 

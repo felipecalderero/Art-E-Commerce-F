@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 
 import "@mantine/core/styles.css";
+import "./styles/global.css";
 import { MantineProvider } from "@mantine/core";
 import theme from "./styles/theme.js";
 

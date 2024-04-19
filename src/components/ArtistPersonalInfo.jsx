@@ -65,9 +65,7 @@ const ArtistPersonalInfo = ({
                 <strong>Nationality:</strong> {artistDetails.nationality}
               </Text>
               <Text size="sm">
-                <strong>Gender:</strong>{" "}
-                {artistDetails.gender[0].toUpperCase() +
-                  artistDetails.gender.slice(1)}
+                <strong>Gender:</strong> {artistDetails.gender}
               </Text>
             </Stack>
             <Stack gap={rem(10)}>

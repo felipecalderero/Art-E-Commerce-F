@@ -48,6 +48,7 @@ const ArtistDetailsPage = () => {
     userId: artistId,
     price: 0,
     inCart: 0,
+    nationality: "",
   });
   const [isNewArt, setIsNewArt] = useState(true);
 
@@ -232,7 +233,13 @@ const ArtistDetailsPage = () => {
 
           {/* Artist's Arts display */}
           <>
-            <Title order={2} ta="center" className={classes.title}>
+            <Title
+              order={2}
+              ta="center"
+              className={classes.title}
+              mt={rem(50)}
+              mb={rem(50)}
+            >
               All Artworks by {artist.name}
             </Title>
             {artist.arts?.length ? (

@@ -10,6 +10,7 @@ import {
   Text,
   Container,
   Button,
+  rem,
 } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -129,6 +130,7 @@ export function RegistrationTitle() {
               color="#e6757d"
               value="buyer"
               label="Buyer Only"
+              mb={rem(5)}
             />
             <Radio
               icon={CheckIcon}

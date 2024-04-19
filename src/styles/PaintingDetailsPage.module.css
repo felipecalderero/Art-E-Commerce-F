@@ -26,7 +26,7 @@
 .details {
   width: 100%;
   padding: rem(10);
-  background-color: white;
+  background-color: light-dark(white, gray);
   color: light-dark(black, black);
   border-radius: 2%;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -41,4 +41,8 @@
   font-family: Greycliff CF, var(--mantine-font-family);
   font-weight: 900;
   color: light-dark(#e6757d, #ffebb2);
+}
+
+.background {
+  min-height: 100vh;
 }

@@ -95,7 +95,7 @@ export function AuthenticationTitle() {
             Art-Market!
           </Title>
           <br />
-          <Text c="#e6757d" size="sm" ta="center" mt={5}>
+          <Text c="light-dark(#e6757d, #8644a2)" size="sm" ta="center" mt={5}>
             Do not have an account yet?{" "}
             <Anchor size="sm" component="button">
               <Link to={"/register"}>Create account</Link>
@@ -125,7 +125,11 @@ export function AuthenticationTitle() {
               error={errorPassword}
             />
             <Group justify="space-between" mt="lg">
-              <Checkbox color="#e6757d" radius="md" label="Remember me" />
+              <Checkbox
+                color="light-dark(#e6757d, #8644a2)"
+                radius="md"
+                label="Remember me"
+              />
               <Anchor component="button" size="sm">
                 <Link to={"/forgotpassword"}>Forgot password?</Link>
               </Anchor>
@@ -134,7 +138,7 @@ export function AuthenticationTitle() {
               variant="filled"
               radius="xl"
               fullWidth
-              color="#e6757d"
+              color="light-dark(#e6757d, #8644a2)"
               mt="xl"
               onClick={handleSubmit}
             >

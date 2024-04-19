@@ -19,11 +19,15 @@ export function ForgotPassword() {
   return (
     <div className={classes.background}>
       <Container size={460} my={30}>
-        <Title className={classes.title} ta="center">
+        <Title
+          className={classes.title}
+          ta="center"
+          c="light-dark(#e6757d, #8644a2)"
+        >
           Forgot your password?
         </Title>
         <br />
-        <Text c="#e6757d" fz="sm" ta="center">
+        <Text c="light-dark(#e6757d, #8644a2)" fz="sm" ta="center">
           Enter your email to get a reset link
         </Text>
 
@@ -44,12 +48,16 @@ export function ForgotPassword() {
               />
               <Link to={"/"}>
                 <Box ml={5} size="sm">
-                  Back to the login page
+                  <Text size="sm">Back to the login page</Text>
                 </Box>
               </Link>
             </Center>
             {/* </Anchor> */}
-            <Button radius="xl" color="#e6757d" className={classes.control}>
+            <Button
+              radius="xl"
+              color="light-dark(#e6757d, #8644a2)"
+              className={classes.control}
+            >
               Reset password
             </Button>
           </Group>

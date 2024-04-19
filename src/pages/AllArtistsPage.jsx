@@ -65,7 +65,9 @@ const AllArtistsPage = () => {
           onChange={(event) => setSearchTerm(event.currentTarget.value)}
         />
       </Container>
-      <ArtistsGrid list={artists}></ArtistsGrid>
+      <div className={classes.gridCtn}>
+        <ArtistsGrid list={artists}></ArtistsGrid>
+      </div>
     </div>
   );
 };

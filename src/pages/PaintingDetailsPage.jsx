@@ -88,7 +88,7 @@ const PaintingDetailsPage = () => {
   }, []);
 
   return (
-    <>
+    <div className={classes.background}>
       {art ? (
         <Container className={classes.container}>
           <Flex
@@ -188,9 +188,9 @@ const PaintingDetailsPage = () => {
           </Flex>
         </Container>
       ) : (
-        <p>Loading details...</p> // Provide a loading state feedback
+        <p> </p> // Provide a loading state feedback
       )}
-    </>
+    </div>
   );
 };
 

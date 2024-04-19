@@ -1,6 +1,7 @@
 .background {
   height: 100%;
   width: 100%;
+  min-height: calc(100vh - 84px);
   align-content: center;
   background-color: #ffebb2;
 }
@@ -8,5 +9,5 @@
 .title {
   font-family: Greycliff CF, var(--mantine-font-family);
   font-weight: 900;
-  color: #e6757d;
+  color: light-dark(#e6757d, #8644a2);
 }

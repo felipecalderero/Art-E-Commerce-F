@@ -6,6 +6,7 @@ import { BreadcrumbContext } from "../context/breadcrumb.context";
 import { Container, TextInput, rem } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useDebouncedState } from "@mantine/hooks";
+import classes from "../styles/AllPaintingsPage.module.css";
 
 const AllPaintingsPage = () => {
   const [artworks, setArtworks] = useState([]);
@@ -74,11 +75,13 @@ const AllPaintingsPage = () => {
           onChange={(event) => setSearchTerm(event.currentTarget.value)}
         />
       </Container>
-      <ArtsGrid
-        list={artworks}
-        page={"all-art"}
-        updateArtistDetail={updateArtDetail}
-      ></ArtsGrid>
+      <div className={classes.gridCtn}>
+        <ArtsGrid
+          list={artworks}
+          page={"all-art"}
+          updateArtistDetail={updateArtDetail}
+        ></ArtsGrid>
+      </div>
     </>
   );
 };

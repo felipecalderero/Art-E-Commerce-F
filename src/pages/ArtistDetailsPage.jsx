@@ -281,7 +281,7 @@ const ArtistDetailsPage = () => {
           </>
         </>
       ) : (
-        <p>Loading details...</p> // Provide a loading state feedback
+        <p> </p> // Provide a loading state feedback
       )}
 
       {/* Update artist modal */}

@@ -78,7 +78,12 @@ export function RegistrationTitle() {
   return (
     <div className={classes.background}>
       <Container size={420} my={40}>
-        <Title className={classes.title} ta="center" textWrap="wrap">
+        <Title
+          className={classes.title}
+          ta="center"
+          textWrap="wrap"
+          c="light-dark(#e6757d, #8644a2)"
+        >
           Create <br />
           Your Account
         </Title>
@@ -86,7 +91,7 @@ export function RegistrationTitle() {
           <TextInput
             styles={{
               input: {
-                backgroundColor: "#e7f0fe", // Set background color to white
+                backgroundColor: "light-dark(white, #444a)", // Set background color to white
               },
             }}
             variant="filled"
@@ -127,14 +132,14 @@ export function RegistrationTitle() {
           >
             <Radio
               icon={CheckIcon}
-              color="#e6757d"
+              color="light-dark(#e6757d, #8644a2)"
               value="buyer"
               label="Buyer Only"
               mb={rem(5)}
             />
             <Radio
               icon={CheckIcon}
-              color="#e6757d"
+              color="light-dark(#e6757d, #8644a2)"
               value="artist"
               label="Artist"
             />
@@ -144,7 +149,7 @@ export function RegistrationTitle() {
             radius="xl"
             v
             fullWidth
-            color="#e6757d"
+            color="light-dark(#e6757d, #8644a2)"
             mt="xl"
             onClick={handleSubmit}
           >

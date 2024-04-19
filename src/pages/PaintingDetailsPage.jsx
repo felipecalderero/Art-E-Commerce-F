@@ -7,7 +7,6 @@ import manPlaceholder from "../assets/images/man_placeholder.jpg";
 import { UserContext } from "../context/user.context";
 import { BreadcrumbContext } from "../context/breadcrumb.context";
 
-import axios from "axios";
 import {
   Button,
   Container,
@@ -29,18 +28,41 @@ const PaintingDetailsPage = () => {
   const { setItemList } = useContext(BreadcrumbContext);
 
   // Fetch art details from DB
-  const fetchArt = () => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/arts/${artId}`)
-      .then((response) => {
-        const currentArt = response.data;
-        setArt(currentArt);
+  const fetchArt = async () => {
+    try {
+      const responseArt = await fetch(
+        `${import.meta.env.VITE_API_URL}/arts/${artId}`
+      );
+      if (responseArt.ok) {
+        const artResponseData = await responseArt.json();
         setItemList([
           { title: "All Painting", url: "/arts" },
-          { title: currentArt.title },
+          { title: artResponseData.title },
         ]);
-      })
-      .catch((error) => console.error(error));
+        const responseArtist = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/${artResponseData.userId}`
+        );
+        if (responseArtist.ok) {
+          const artistResponseData = await responseArtist.json();
+          const artDetails = {
+            ...artResponseData,
+            artist: artistResponseData.name,
+            photo: artistResponseData.photo,
+            gender: artistResponseData.gender,
+          };
+          setArt(artDetails);
+        } else {
+          throw new Error(responseArtist);
+        }
+      } else {
+        throw new Error(responseArt);
+      }
+    } catch (error) {
+      console.error(
+        "Error while fetching art or artist data",
+        JSON.stringify(error)
+      );
+    }
   };
 
   // Update art's inCart count

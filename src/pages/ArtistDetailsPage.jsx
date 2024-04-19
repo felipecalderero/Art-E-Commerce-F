@@ -140,7 +140,6 @@ const ArtistDetailsPage = () => {
         "Error occured while updating artist info:",
         JSON.stringify(error)
       );
-      // setErrors({ ...errors, email: "Registration failed. Please try again." });
     }
   };
 

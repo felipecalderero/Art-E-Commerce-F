@@ -82,7 +82,7 @@ export function RegistrationTitle() {
           className={classes.title}
           ta="center"
           textWrap="wrap"
-          c="light-dark(#e6757d, #8644a2)"
+          c="light-dark(#ffebb2, #8644a2)"
         >
           Create <br />
           Your Account

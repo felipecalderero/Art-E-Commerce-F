@@ -37,4 +37,5 @@ To set up and run a local development instance:
 - mantine
 - vite
 - ironback mock backend
-- 
+
+## Authors: Jinisha & Felipe

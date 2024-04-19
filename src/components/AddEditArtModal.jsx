@@ -56,7 +56,7 @@ const AddEditModal = ({ isNewArt, artDetail, addUpdateArt }) => {
     else if (!isValidSize(size)) validationErrors.size = "Invalid size format";
 
     if (!price) validationErrors.price = "Price is required";
-    if (!artImage) validationErrors.artImage = "Art image is required";
+    if (!artImage) validationErrors.image = "Art image is required";
     else if (!isValidLink(artImage)) validationErrors.image = "Invalid URL";
     if (
       (date.length && !isValidYear(date)) ||

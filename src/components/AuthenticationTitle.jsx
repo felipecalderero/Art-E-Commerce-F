@@ -54,6 +54,10 @@ export function AuthenticationTitle() {
                 email: email,
               })
             );
+            localStorage.setItem(
+              "countries",
+              JSON.stringify(["India", "Spain", "Germany"])
+            );
             navigate("/arts", { state: { user: email } });
           }
         }

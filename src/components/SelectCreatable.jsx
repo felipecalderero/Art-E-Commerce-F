@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Combobox, InputBase, useCombobox } from "@mantine/core";
 
-const countries = ["India", "Spain", "Germany"];
-
 export function SelectCreatable({ nationality, setNationality }) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  const [data, setData] = useState(countries);
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("countries"))
+  );
   const [search, setSearch] = useState(nationality);
 
   const exactOptionMatch = data.some((item) => item === search);
@@ -30,8 +30,10 @@ export function SelectCreatable({ nationality, setNationality }) {
       withinPortal={false}
       onOptionSubmit={(val) => {
         if (val === "$create") {
-          setData((current) => [...current, search]);
+          const updatedCountries = [...data, search];
+          setData(updatedCountries);
           setNationality(search);
+          localStorage.setItem("countries", JSON.stringify(updatedCountries));
         } else {
           setNationality(val);
           setSearch(val);

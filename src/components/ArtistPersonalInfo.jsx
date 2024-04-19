@@ -32,7 +32,7 @@ const ArtistPersonalInfo = ({
             src={
               artistDetails.photo
                 ? artistDetails.photo
-                : artistDetails.gender === "female"
+                : artistDetails.gender === "Female"
                 ? womanPlaceholder
                 : manPlaceholder
             }
